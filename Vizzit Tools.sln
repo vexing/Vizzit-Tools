@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vizzit Tools", "Vizzit Tools\Vizzit Tools.csproj", "{8DF1EB3D-D926-4070-89A7-84884B0B9DDE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spider", "SpiderCore\Spider.csproj", "{1FFDFF9A-D0A6-4165-B69C-833A5CEA5BBF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8DF1EB3D-D926-4070-89A7-84884B0B9DDE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8DF1EB3D-D926-4070-89A7-84884B0B9DDE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8DF1EB3D-D926-4070-89A7-84884B0B9DDE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8DF1EB3D-D926-4070-89A7-84884B0B9DDE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1FFDFF9A-D0A6-4165-B69C-833A5CEA5BBF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1FFDFF9A-D0A6-4165-B69C-833A5CEA5BBF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1FFDFF9A-D0A6-4165-B69C-833A5CEA5BBF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1FFDFF9A-D0A6-4165-B69C-833A5CEA5BBF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

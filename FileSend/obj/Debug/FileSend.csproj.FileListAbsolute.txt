@@ -1,0 +1,5 @@
+C:\Users\antehagg\documents\visual studio 2013\Projects\Vizzit Tools\FileSend\bin\Debug\FileSend.dll
+C:\Users\antehagg\documents\visual studio 2013\Projects\Vizzit Tools\FileSend\bin\Debug\FileSend.pdb
+C:\Users\antehagg\documents\visual studio 2013\Projects\Vizzit Tools\FileSend\obj\Debug\FileSend.csprojResolveAssemblyReference.cache
+C:\Users\antehagg\documents\visual studio 2013\Projects\Vizzit Tools\FileSend\obj\Debug\FileSend.dll
+C:\Users\antehagg\documents\visual studio 2013\Projects\Vizzit Tools\FileSend\obj\Debug\FileSend.pdb
