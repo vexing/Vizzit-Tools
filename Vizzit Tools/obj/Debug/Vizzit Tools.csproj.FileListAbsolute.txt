@@ -1,0 +1,18 @@
+c:\users\antehagg\documents\visual studio 2013\Projects\Vizzit Tools\Vizzit Tools\bin\Debug\Vizzit Tools.exe.config
+C:\Users\antehagg\Documents\Visual Studio 2013\Projects\Vizzit Tools\Vizzit Tools\bin\Debug\Vizzit Tools.exe
+C:\Users\antehagg\Documents\Visual Studio 2013\Projects\Vizzit Tools\Vizzit Tools\bin\Debug\Vizzit Tools.pdb
+C:\Users\antehagg\Documents\Visual Studio 2013\Projects\Vizzit Tools\Vizzit Tools\obj\Debug\Vizzit Tools.csprojResolveAssemblyReference.cache
+C:\Users\antehagg\Documents\Visual Studio 2013\Projects\Vizzit Tools\Vizzit Tools\obj\Debug\MainWindow.baml
+C:\Users\antehagg\Documents\Visual Studio 2013\Projects\Vizzit Tools\Vizzit Tools\obj\Debug\MainWindow.g.cs
+C:\Users\antehagg\Documents\Visual Studio 2013\Projects\Vizzit Tools\Vizzit Tools\obj\Debug\App.g.cs
+C:\Users\antehagg\Documents\Visual Studio 2013\Projects\Vizzit Tools\Vizzit Tools\obj\Debug\Vizzit Tools_MarkupCompile.cache
+C:\Users\antehagg\Documents\Visual Studio 2013\Projects\Vizzit Tools\Vizzit Tools\obj\Debug\Vizzit Tools.g.resources
+C:\Users\antehagg\Documents\Visual Studio 2013\Projects\Vizzit Tools\Vizzit Tools\obj\Debug\Vizzit_Tools.Properties.Resources.resources
+C:\Users\antehagg\Documents\Visual Studio 2013\Projects\Vizzit Tools\Vizzit Tools\obj\Debug\Vizzit Tools.csproj.GenerateResource.Cache
+C:\Users\antehagg\Documents\Visual Studio 2013\Projects\Vizzit Tools\Vizzit Tools\obj\Debug\Vizzit Tools.exe
+C:\Users\antehagg\Documents\Visual Studio 2013\Projects\Vizzit Tools\Vizzit Tools\obj\Debug\Vizzit Tools.pdb
+C:\Users\antehagg\documents\visual studio 2013\Projects\Vizzit Tools\Vizzit Tools\bin\Debug\SpiderCore.dll
+C:\Users\antehagg\documents\visual studio 2013\Projects\Vizzit Tools\Vizzit Tools\bin\Debug\HtmlAgilityPack.dll
+C:\Users\antehagg\documents\visual studio 2013\Projects\Vizzit Tools\Vizzit Tools\bin\Debug\SpiderCore.pdb
+C:\Users\antehagg\documents\visual studio 2013\Projects\Vizzit Tools\Vizzit Tools\bin\Debug\HtmlAgilityPack.pdb
+C:\Users\antehagg\documents\visual studio 2013\Projects\Vizzit Tools\Vizzit Tools\bin\Debug\HtmlAgilityPack.xml
