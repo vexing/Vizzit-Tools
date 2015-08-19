@@ -5,11 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using System.IO.Compression;
-using System.Text;
+using Ionic.Zip;
 
-namespace SpiderCore
+namespace FileHandler
 {
-    internal static class StringCompressor
+    public static class StringCompressor
     {
         /// <summary>
         /// Compresses the string.
@@ -34,6 +34,42 @@ namespace SpiderCore
             Buffer.BlockCopy(compressedData, 0, gZipBuffer, 4, compressedData.Length);
             Buffer.BlockCopy(BitConverter.GetBytes(buffer.Length), 0, gZipBuffer, 0, 4);
             return Convert.ToBase64String(gZipBuffer);
+        }
+
+        /// <summary>
+        /// Compress to a file.
+        /// </summary>
+        /// <param name="text">The text.</param>
+        /// <returns></returns>
+        public static string CreateZipFile(string text)
+        {
+            string fileName = Directory.GetCurrentDirectory() + @"\spiderData.txt";
+            string error;
+
+            try
+            {
+                // Delete the file if it exists. 
+                if (File.Exists(fileName))
+                    File.Delete(fileName);
+
+                // Create the file. 
+                using (FileStream fs = File.Create(fileName))
+                {
+                    Byte[] info = new UTF8Encoding(true).GetBytes(text);
+                    fs.Write(info, 0, info.Length);
+                }
+            }
+            catch (Exception ex) { error = ex.Message; }
+
+            string zipFile = Directory.GetCurrentDirectory() + @"spiderData.zip";
+
+            using (ZipFile zip = new ZipFile())
+            {
+                zip.AddFile(fileName, "");
+                zip.Save(zipFile);
+            }
+
+            return zipFile;
         }
 
         /// <summary>

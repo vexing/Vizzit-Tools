@@ -11,6 +11,10 @@ namespace SpiderCore
     {
         protected string linkUrl;
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="linkUrl"></param>
         public LinkData(string linkUrl)
         {
             this.linkUrl = linkUrl;

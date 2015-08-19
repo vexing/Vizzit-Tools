@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using FileHandler;
 
 namespace Vizzit_Tools
 {
@@ -30,7 +31,11 @@ namespace Vizzit_Tools
         {
             var spider = new Core(@"http://www.vizzit.se");
             string firstPage = "/";
-            spider.StartSpider(firstPage);
+            var output = spider.StartSpider(firstPage);
+
+            var zippedJson = StringCompressor.CreateZipFile(output.JsonString);
+            FileSend.SendFile(zippedJson);
+
             DebugTextBlock.Text = spider.errorMsg;
 
             /*if (DomainValidation())

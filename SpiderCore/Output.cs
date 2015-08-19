@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using SpiderCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,12 +8,18 @@ using System.Threading.Tasks;
 
 namespace SpiderCore
 {
+    //TODO: Move to external namcespace
     public class Output
     {
         private List<PageData> pageDataList;
         private Dictionary<string, InternalLink> visitedLinks;
         private string jsonString;
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="pageDataList">List on all PageData objects</param>
+        /// <param name="visitedLinks">list of all InternalLinks</param>
         public Output(List<PageData> pageDataList, Dictionary<string, InternalLink> visitedLinks)
         {
             this.pageDataList = pageDataList;
@@ -19,37 +27,17 @@ namespace SpiderCore
             jsonString = createJson();
         }
 
+        /// <summary>
+        /// Create the actual JSON with Newtonsoft
+        /// </summary>
         private string createJson()
         {
-            string json =  "{ ";
-            foreach(PageData pd in pageDataList)
-            {
-                json += "\"" + pd.Url + "\" : [ ";
-
-                foreach (string il in pd.LinkDataList)
-                {
-                    if (visitedLinks.ContainsKey(il))
-                    {
-                        json += "{ \"url\" : \"" + visitedLinks[il].LinkUrl + "\",";
-                        json += "\"status\" : \"" + visitedLinks[il].Status + "\",";
-                        json += "\"relative\" : \"" + visitedLinks[il].Relative + "\" },";
-                    }
-                    else
-                    {
-                        json += "{ \"url\" : \"" + il + "\",";
-                        json += "\"status\" : \"notVisited\",";
-                        json += "\"relative\" : \"notVisited\"},";
-                    }
-                }
-
-                json = json.Remove(json.Length - 1, 1);
-                json += " ],";                    
-            }
-            json = json.Remove(json.Length - 1, 1);
-            json += " }";
+            DateTime dt = DateTime.Now;
+            string json =  JsonConvert.SerializeObject(pageDataList, Formatting.Indented);
+            TimeSpan timeTaken = DateTime.Now.Subtract(dt);
 
             return json;
-        }
+        }  
 
         #region GetSet
         public string JsonString

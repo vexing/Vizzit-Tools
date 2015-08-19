@@ -6,3 +6,11 @@ C:\Users\antehagg\documents\visual studio 2013\Projects\Vizzit Tools\SpiderCore\
 C:\Users\antehagg\documents\visual studio 2013\Projects\Vizzit Tools\SpiderCore\obj\Debug\Spider.csprojResolveAssemblyReference.cache
 C:\Users\antehagg\documents\visual studio 2013\Projects\Vizzit Tools\SpiderCore\obj\Debug\SpiderCore.dll
 C:\Users\antehagg\documents\visual studio 2013\Projects\Vizzit Tools\SpiderCore\obj\Debug\SpiderCore.pdb
+C:\Users\antehagg\Documents\GitHub\Vizzit-Tools\SpiderCore\bin\Debug\SpiderCore.dll
+C:\Users\antehagg\Documents\GitHub\Vizzit-Tools\SpiderCore\bin\Debug\SpiderCore.pdb
+C:\Users\antehagg\Documents\GitHub\Vizzit-Tools\SpiderCore\bin\Debug\HtmlAgilityPack.dll
+C:\Users\antehagg\Documents\GitHub\Vizzit-Tools\SpiderCore\bin\Debug\HtmlAgilityPack.pdb
+C:\Users\antehagg\Documents\GitHub\Vizzit-Tools\SpiderCore\bin\Debug\HtmlAgilityPack.xml
+C:\Users\antehagg\Documents\GitHub\Vizzit-Tools\SpiderCore\obj\Debug\SpiderCore.dll
+C:\Users\antehagg\Documents\GitHub\Vizzit-Tools\SpiderCore\obj\Debug\SpiderCore.pdb
+C:\Users\antehagg\Documents\GitHub\Vizzit-Tools\SpiderCore\obj\Debug\Spider.csprojResolveAssemblyReference.cache

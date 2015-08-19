@@ -1,0 +1,11 @@
+C:\Users\antehagg\Documents\GitHub\Vizzit-Tools\FileHandler\obj\Debug\FileHandler.csprojResolveAssemblyReference.cache
+C:\Users\antehagg\Documents\GitHub\Vizzit-Tools\FileHandler\bin\Debug\FileHandler.dll
+C:\Users\antehagg\Documents\GitHub\Vizzit-Tools\FileHandler\bin\Debug\FileHandler.pdb
+C:\Users\antehagg\Documents\GitHub\Vizzit-Tools\FileHandler\bin\Debug\Ionic.Zip.dll
+C:\Users\antehagg\Documents\GitHub\Vizzit-Tools\FileHandler\bin\Debug\SpiderCore.dll
+C:\Users\antehagg\Documents\GitHub\Vizzit-Tools\FileHandler\bin\Debug\HtmlAgilityPack.dll
+C:\Users\antehagg\Documents\GitHub\Vizzit-Tools\FileHandler\bin\Debug\SpiderCore.pdb
+C:\Users\antehagg\Documents\GitHub\Vizzit-Tools\FileHandler\bin\Debug\HtmlAgilityPack.pdb
+C:\Users\antehagg\Documents\GitHub\Vizzit-Tools\FileHandler\bin\Debug\HtmlAgilityPack.xml
+C:\Users\antehagg\Documents\GitHub\Vizzit-Tools\FileHandler\obj\Debug\FileHandler.dll
+C:\Users\antehagg\Documents\GitHub\Vizzit-Tools\FileHandler\obj\Debug\FileHandler.pdb

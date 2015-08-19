@@ -33,6 +33,7 @@
     <Reference Include="HtmlAgilityPack">
       <HintPath>HAP\HtmlAgilityPack.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -44,13 +45,11 @@
   <ItemGroup>
     <Compile Include="Core.cs" />
     <Compile Include="Extractor.cs" />
-    <Compile Include="FileSend.cs" />
     <Compile Include="InternalLink.cs" />
     <Compile Include="LinkData.cs" />
     <Compile Include="Output.cs" />
     <Compile Include="PageData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StringCompressor.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

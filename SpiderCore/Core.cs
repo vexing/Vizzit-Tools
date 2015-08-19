@@ -16,7 +16,6 @@ namespace SpiderCore
         private Dictionary<string, InternalLink> visitedLinks;
         private List<PageData> pageDataList;
         private Output output;
-        private FileSend fileSend;
         public string errorMsg;
 
         /// <summary>
@@ -35,7 +34,7 @@ namespace SpiderCore
         /// Starts the spider with specifik startpage,
         /// important for non friendly customers
         /// </summary>
-        public void StartSpider(string firstPage)
+        public Output StartSpider(string firstPage)
         {
             string url = this.domain + firstPage;
             
@@ -43,10 +42,8 @@ namespace SpiderCore
             crawlSite();
 
             output = new Output(pageDataList, visitedLinks);
-            var zippedJson = StringCompressor.CompressString(output.JsonString);
 
-            fileSend = new FileSend(zippedJson);
-            fileSend.SendFile();
+            return output;
         }
 
         /// <summary>
@@ -94,9 +91,18 @@ namespace SpiderCore
                 else
                     currentPage = unvistedLinks.First<string>();
 
-                var pageData = new PageData(unvistedLinks.First<string>());
+                 PageData pageData;
+                //If it isn't friendly we need to extract the id
+                if(unvistedLinks.First<string>().Contains("id="))
+                {
+                    pageData = new PageData(unvistedLinks.First<string>(), "no id");
+                }
+                else
+                    pageData = new PageData(unvistedLinks.First<string>());
+
                 bool linkRelative = relativeCheck(pageData.Url);
 
+                //Try to visit the page and extract links
                 try
                 {
                     doc = page.Load(currentPage);
@@ -111,14 +117,17 @@ namespace SpiderCore
                         string title = extractor.GetTitle();
                         List<string> hrefTags = extractor.ExtractAllAHrefTags();
 
+                        //Iterate the links
                         foreach (string hrefTag in hrefTags)
                         {
-                            if (!pageData.LinkDataList.Contains(hrefTag))
+                            //Insert the link to the correct List
+                            if (!pageData.checkIfLinkExistInLinkString(hrefTag))
                             {
                                 if (mailLinkCheck(hrefTag))
                                     pageData.insertMailLink(hrefTag);
                                 else
-                                    pageData.insertLink(hrefTag);
+                                    if(!hrefTag.StartsWith("#"))
+                                        pageData.insertLink(hrefTag);
                             }
                         }   
                         //Insert the whole range of new links
@@ -136,6 +145,22 @@ namespace SpiderCore
                     unvistedLinks.RemoveAt(0);
                     errorMsg = ex.Message;
                 }
+            }
+            buildLinkLists();
+        }
+
+        /// <summary>
+        /// Builds the links list in each PageData object
+        /// </summary>
+        /// <param name="url"></param>
+        private void buildLinkLists()
+        {
+            foreach(PageData pd in pageDataList)
+            {
+                pd.insertLinksToLinks(visitedLinks);
+                // Not sure this is neccessary, it's cleared since we don't need it anymore.
+                // However, without a Get on linksString Newtonsoft won't include it in the JSON anyway.
+                pd.clearLinkStrings();
             }
         }
 
@@ -184,19 +209,33 @@ namespace SpiderCore
         /// <param name="hrefTags">List of new links we want to check</param>
         private void insertNewLinks(List<string> hrefTags)
         {
+            bool resetI = false;
+
             for(int i = 0;i < hrefTags.Count;i++)
             {
+                if(resetI)
+                {
+                    resetI = false;
+                    i = 0;
+                }
+
                 if (hrefTags[i].Contains("javascript") || hrefTags[i].StartsWith("#") || hrefTags[i].StartsWith("mailto"))
                 {
                     hrefTags.Remove(hrefTags[i]);
-                    i--;
+                    if(i != 0)
+                        i--;
+                    else
+                        resetI = true;
                 }
 
                 if (!relativeCheck(hrefTags[i]))
                     if (!ownDomainCheck(hrefTags[i]))
                     {
                         hrefTags.Remove(hrefTags[i]);
-                        i--;
+                        if (i != 0)
+                            i--;
+                        else
+                           resetI = true;
                     }
             }
 
