@@ -32,11 +32,7 @@ namespace SpiderCore
         /// </summary>
         private string createJson()
         {
-            DateTime dt = DateTime.Now;
-            string json =  JsonConvert.SerializeObject(pageDataList, Formatting.Indented);
-            TimeSpan timeTaken = DateTime.Now.Subtract(dt);
-
-            return json;
+            return JsonConvert.SerializeObject(pageDataList, Formatting.Indented);
         }  
 
         #region GetSet
