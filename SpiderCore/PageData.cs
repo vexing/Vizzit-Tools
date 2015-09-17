@@ -101,15 +101,15 @@ namespace SpiderCore
         /// <param name="visitedLinks">Dictionary with a string as key and a list of InternalLinks</param>
         public void insertLinksToLinks(Dictionary<string, InternalLink> visitedLinks)
         {
-            foreach (string link in linkStrings)
-            {
-                if (visitedLinks.ContainsKey(link))
+            if(linkStrings != null)
+                foreach (string link in linkStrings)
                 {
-                    insertToLinks(visitedLinks[link]);
+                    if (visitedLinks.ContainsKey(link))
+                        if(visitedLinks[link].Status != System.Net.HttpStatusCode.OK)
+                            insertToLinks(visitedLinks[link]);
+                    else
+                        insertToNotVisitedLinks(link);
                 }
-                else
-                    insertToNotVisitedLinks(link);
-            }
         }
 
         #region GetSet
@@ -118,18 +118,6 @@ namespace SpiderCore
             get
             {
                 return links;
-            }
-        }
-
-        public List<string> MailLinks
-        {
-            get
-            {
-                return mailLinks;
-            }
-            set
-            {
-                mailLinks = value;
             }
         }
 

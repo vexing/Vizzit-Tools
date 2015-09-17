@@ -43,14 +43,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FileSend.cs" />
+    <Compile Include="FormUpload.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StringCompressor.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\SpiderCore\Spider.csproj">
-      <Project>{1ffdff9a-d0a6-4165-b69c-833a5cea5bbf}</Project>
-      <Name>Spider</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

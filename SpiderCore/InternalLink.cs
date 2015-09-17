@@ -10,6 +10,7 @@ namespace SpiderCore
     public class InternalLink : LinkData
     {
         private HttpStatusCode status;
+        private string customStatus;
         private bool relative;
 
         /// <summary>
@@ -22,7 +23,21 @@ namespace SpiderCore
         {
             this.status = status;
             this.relative = relative;
-        }             
+            this.customStatus = null;
+        }
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="linkUrl">Url to the link</param>
+        /// <param name="status">status code</param>
+        /// <param name="relative">Relative link or not</param>
+        public InternalLink(string linkUrl, string customStatus, bool relative)
+            : base(linkUrl)
+        {
+            this.relative = relative;
+            this.customStatus = customStatus;
+        }   
 
         #region GetSet
         public HttpStatusCode Status
@@ -30,6 +45,13 @@ namespace SpiderCore
             get
             {
                 return status;
+            }
+        }
+        public string CustomStatus
+        {
+            get
+            {
+                return customStatus;
             }
         }
         public bool Relative

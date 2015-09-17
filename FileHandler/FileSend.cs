@@ -24,71 +24,28 @@ namespace FileHandler
             }
         }
 
-        /// <summary>
-        /// Sends the specified (zipped) file via HTTP.
-        /// </summary>
-        /// <param name="target">The upload target, i.e. the URL of the server</param>
-        /// <param name="custID">The customer ID</param>
-        /// <param name="files">The path to the file to be sent</param>
-        public static void SendByHttp(string target, string custID, string zippedFile)
+        public static void SendFile(string fileName, string customerId)
         {
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(target);
-            request.Method = "POST";
+            FileStream fs = new FileStream(fileName, FileMode.Open, FileAccess.Read);
+            byte[] data = new byte[fs.Length];
+            fs.Read(data, 0, data.Length);
+            fs.Close();
 
-            string sBoundary = "---------------------------$$VizzitBoundary_1.0.0.0$$";
-            request.ContentType = "multipart/form-data; boundary=" + sBoundary;
-            request.Timeout = Timeout.Infinite;
+            // Generate post objects
+            Dictionary<string, object> postParameters = new Dictionary<string, object>();
+            postParameters.Add("FileName", fileName);
+            postParameters.Add("CustomerId", customerId);
+            postParameters.Add("UploadFile", new FormUpload.FileParameter(data, fileName, "application/msword"));
 
-            // open a write stream to the specified Target using "POST"
-            StreamWriter st = new StreamWriter(request.GetRequestStream(), System.Text.Encoding.ASCII);
+            // Create request and receive response
+            string postURL = "http://www.vizzit.se/files/uploadSpider.php";
+            string userAgent = "VizzitSpider";
+            HttpWebResponse webResponse = FormUpload.MultipartFormDataPost(postURL, userAgent, postParameters);
 
-            FileInfo f = new FileInfo(zippedFile);
-            FileStream fStream = f.OpenRead();
-
-            Byte[] fileData = new Byte[f.Length];
-            fStream.Read(fileData, 0, (int)f.Length);
-            fStream.Close();
-
-            // build formpost-body
-            AddContentPart(st, sBoundary, "UploadFile", zippedFile, "application/octet-stream", fileData);
-            AddContentPart(st, sBoundary, "CustomerId", null, null, custID);
-
-            st.Write("--" + sBoundary + "--\r\n");
-            st.Flush();
-            st.Close();
-        }
-
-        private static void AddContentPart(StreamWriter stream, string boundary, string name, string filename, string contenttype, byte[] data)
-        {
-            stream.Write("--" + boundary + "\r\nContent-Disposition: form-data; name=\"" + name + "\"; ");
-
-            if (null != filename)
-                stream.Write(" filename=\"" + filename + "\"");
-
-            stream.Write("\r\nContent-Type: " + contenttype + "\r\n\r\n");
-            stream.Flush();
-
-            stream.BaseStream.Write(data, 0, data.Length);
-            stream.Flush();
-
-            stream.Write("\r\n");
-            stream.Flush();
-        }
-
-        private static void AddContentPart(StreamWriter stream, string boundary, string name, string filename, string contenttype, string data)
-        {
-            stream.Write("--" + boundary + "\r\nContent-Disposition: form-data; name=\"" + name + "\"");
-
-            if (null != filename)
-                stream.Write(" ;filename=\"" + filename + "\"");
-
-            if (null != contenttype)
-                stream.Write("\r\nContent-Type: " + contenttype);
-
-            stream.Write("\r\n\r\n");
-            stream.Write(data);
-            stream.Write("\r\n");
-            stream.Flush();
+            // Process response
+            StreamReader responseReader = new StreamReader(webResponse.GetResponseStream());
+            string fullResponse = responseReader.ReadToEnd();
+            webResponse.Close();
         }
     }
 }

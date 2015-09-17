@@ -11,23 +11,26 @@ namespace SpiderCore
 {
     public class Core
     {
-        private string domain;
+        [ThreadStaticAttribute] private static string domain;
         private List<string> unvistedLinks;
         private Dictionary<string, InternalLink> visitedLinks;
         private List<PageData> pageDataList;
         private Output output;
-        public string errorMsg;
+        private Log newLog;
+        private Meta meta;
 
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="domain">Domain we want to crawl as a string</param>
-        public Core(string domain)
+        public Core(string domain, string customer_id)
         {
-            this.domain = domain;
+            meta = new Meta();
+            Core.domain = domain;
             unvistedLinks = new List<string>();
             visitedLinks = new Dictionary<string, InternalLink>();
             pageDataList = new List<PageData>();
+            newLog = new Log(customer_id);
         }
 
         /// <summary>
@@ -36,7 +39,7 @@ namespace SpiderCore
         /// </summary>
         public Output StartSpider(string firstPage)
         {
-            string url = this.domain + firstPage;
+            string url = Core.domain + firstPage;
             
             unvistedLinks.Add(url);
             crawlSite();
@@ -46,19 +49,226 @@ namespace SpiderCore
             return output;
         }
 
-        /// <summary>
-        /// Crawl the entire site
-        /// </summary>
-        private void crawlSite()
+        public Output StartSpider(int custNo, string firstPage)
         {
-            //TODO: Need to handle external links
+            string url = Core.domain + firstPage;
 
+            unvistedLinks.Add(url);
+            crawlSite();
+
+            output = new Output(pageDataList, visitedLinks, custNo);
+
+            return output;
+        }
+
+        public Output StartSpider(int custNo, string firstPage, string customer_id)
+        {
+            string url = Core.domain + firstPage;
+
+            unvistedLinks.Add(url);
+            crawlSite();
+
+            output = new Output(pageDataList, visitedLinks, customer_id, meta);
+
+            return output;
+        }
+
+        public Output StartSpiderDailyCheck(int custNo, List<string> urlList, string customer_id)
+        {
+            string url = Core.domain + urlList.First<string>();
+
+            unvistedLinks.Add(url);
+            crawlSiteDailyCheck(urlList);
+
+            output = new Output(pageDataList, visitedLinks, customer_id);
+
+            return output;
+        }
+
+        private void crawlSiteDailyCheck(List<string> urlList)
+        {
+            unvistedLinks = urlList;
+
+            newLog.logLine("Starting ", Core.domain);
+            GuiLogger.Log(String.Format("Crawling {0}", Core.domain));
             //As long as there is an unvisted link we continue
             while (unvistedLinks.Count > 0)
             {
                 InternalLink linkData;
                 //Check if it is a mail link
                 bool isMail = mailLinkCheck(unvistedLinks.First<string>());
+                bool isFile = isFileCheck(unvistedLinks.First<string>());
+
+                if (isMail)
+                {
+                    unvistedLinks.RemoveAt(0);
+                    continue;
+                }
+
+                bool ownDomain = true;
+
+                //Visit the first link in the list
+                bool relative = relativeCheck(unvistedLinks.First<string>());
+                if (!relative)
+                    ownDomain = ownDomainCheck(unvistedLinks.First<string>());
+
+                if (unvistedLinks.First<string>().Contains("javascript") ||
+                    unvistedLinks.First<string>().StartsWith("#"))
+                {
+                    unvistedLinks.RemoveAt(0);
+                    continue;
+                }
+                //Remove shit for SCB
+                if (unvistedLinks.First<string>().Contains("type=terms") || unvistedLinks.First<string>().Contains("query=lua") ||
+                    unvistedLinks.First<string>().Contains("publobjid="))
+                {
+                    unvistedLinks.RemoveAt(0);
+                    continue;
+                }
+
+                if (!unvistedLinks.First<string>().StartsWith("/") &&
+                    !unvistedLinks.First<string>().StartsWith("http"))
+                {
+                    unvistedLinks.RemoveAt(0);
+                    continue;
+                }
+
+                string currentPage;
+                var page = new HtmlWeb();
+                page.PreRequest = delegate(HttpWebRequest webRequest)
+                {
+                    webRequest.AllowAutoRedirect = true;
+                    webRequest.Timeout = 5000;
+                    return true;
+                };
+
+                page.UserAgent = "VizzitSpider";
+                var doc = new HtmlDocument();
+
+                //Add domain if the link is relative
+                if (relative && ownDomain)
+                    currentPage = domain + unvistedLinks.First<string>();
+                else
+                    currentPage = unvistedLinks.First<string>();
+
+                PageData pageData;
+                //If it isn't friendly we need to extract the id
+                if (unvistedLinks.First<string>().Contains("id="))
+                {
+                    pageData = new PageData(unvistedLinks.First<string>(), "no id");
+                }
+                else
+                    pageData = new PageData(unvistedLinks.First<string>());
+
+                bool linkRelative = relativeCheck(pageData.Url);
+                bool responseOk = pageResponseCheck(pageData.Url);
+
+                //Try to visit the page and extract links
+                try
+                {
+                    if (isFile)
+                    {
+                        //if (currentPage.Contains(domain))
+                        //  currentPage = currentPage.Replace(domain, "");
+
+                        Uri fileUrl = new Uri(currentPage);
+                        // Create a 'FileWebrequest' object with the specified Uri. 
+                        HttpWebRequest myFileWebRequest = (HttpWebRequest)WebRequest.Create(fileUrl);
+                        // Send the 'FileWebRequest' o-bject and wait for response. 
+                        HttpWebResponse myFileWebResponse = (HttpWebResponse)myFileWebRequest.GetResponse();
+
+                        linkData = new InternalLink(pageData.Url, myFileWebResponse.StatusCode, linkRelative);
+                        visitedLinks.Add(pageData.Url, linkData);
+
+                        myFileWebResponse.Close();
+                    }
+                    else if (!ownDomain)
+                    {
+                        if (!currentPage.StartsWith("http"))
+                            doc = page.Load("http://" + currentPage);
+                        else
+                            doc = page.Load(currentPage);
+
+                        linkData = new InternalLink(pageData.Url, page.StatusCode, linkRelative);
+                        visitedLinks.Add(pageData.Url, linkData);
+
+                    }
+                    else
+                    {
+                        doc = page.Load(currentPage);
+                        linkData = new InternalLink(pageData.Url, page.StatusCode, linkRelative);
+                        visitedLinks.Add(pageData.Url, linkData);
+
+
+                        //Extract data from currentPage if status 200
+                        if (page.StatusCode == HttpStatusCode.OK && ownDomain)
+                        {
+                            var extractor = new Extractor(doc);
+                            Dictionary<string, string> metaList = extractor.GetMeta();
+                            string title = extractor.GetTitle();
+                            List<string> hrefTags = extractor.ExtractAllAHrefTags();
+
+                            //Iterate the links
+                            foreach (string hrefTag in hrefTags)
+                            {
+                                //Insert the link to the correct List
+                                if (!pageData.checkIfLinkExistInLinkString(hrefTag))
+                                {
+                                    if (mailLinkCheck(hrefTag))
+                                        pageData.insertMailLink(hrefTag);
+                                    else
+                                        if (!hrefTag.StartsWith("#"))
+                                            pageData.insertLink(hrefTag);
+                                }
+                            }
+                            //Insert the whole range of new links
+                            insertNewLinks(hrefTags);
+                        }
+                    }
+                    //Add the finished page
+                    if (!isFile && ownDomain)
+                        pageDataList.Add(pageData);
+                    //Remove the link since we are done with it
+                    unvistedLinks.RemoveAt(0);
+                }
+                catch (WebException ex)
+                {
+                    newLog.logLine(ex.Message, unvistedLinks.First<string>());
+                    if (ex.Message.Contains("(404) Not Found."))
+                    {
+                        linkData = new InternalLink(pageData.Url, HttpStatusCode.NotFound, linkRelative);
+                        visitedLinks.Add(pageData.Url, linkData);
+                    }
+
+                    //Removed the faulty link, needs a better handling
+                    unvistedLinks.RemoveAt(0);
+                }
+                catch (Exception ex)
+                {
+                    newLog.logLine(ex.Message, unvistedLinks.First<string>());
+                    unvistedLinks.RemoveAt(0);
+                }
+            }
+            buildLinkLists();
+
+            GuiLogger.Log(String.Format("Finished crawling {0}", domain));
+            newLog.logLine("Spider", "done");         
+        }
+
+        /// <summary>
+        /// Crawl the entire site
+        /// </summary>
+        private void crawlSite()
+        {
+            newLog.logLine("Starting ", Core.domain);
+            GuiLogger.Log(String.Format("Crawling {0}", Core.domain));
+            //As long as there is an unvisted link we continue
+            while (unvistedLinks.Count > 0)
+            {
+                InternalLink linkData;
+                //Check if it is a mail link
+                bool isMail = mailLinkCheck(unvistedLinks.First<string>());
+                bool isFile = isFileCheck(unvistedLinks.First<string>());
 
                 if (isMail)
                 {
@@ -73,8 +283,22 @@ namespace SpiderCore
                 if(!relative)
                     ownDomain = ownDomainCheck(unvistedLinks.First<string>());
 
+                if (unvistedLinks.First<string>().Contains("javascript") ||
+                    unvistedLinks.First<string>().StartsWith("#"))
+                {
+                    unvistedLinks.RemoveAt(0);
+                    continue;
+                }
+                //Remove shit for SCB
+                if (unvistedLinks.First<string>().Contains("type=terms") || unvistedLinks.First<string>().Contains("query=lua") ||
+                    unvistedLinks.First<string>().Contains("publobjid="))
+                {
+                    unvistedLinks.RemoveAt(0);
+                    continue;
+                }
 
-                if (!ownDomain || unvistedLinks.First<string>().Contains("javascript") || unvistedLinks.First<string>().StartsWith("#"))
+                if (!unvistedLinks.First<string>().StartsWith("/") &&
+                    !unvistedLinks.First<string>().StartsWith("http"))
                 {
                     unvistedLinks.RemoveAt(0);
                     continue;
@@ -82,6 +306,13 @@ namespace SpiderCore
 
                 string currentPage;
                 var page = new HtmlWeb();
+                page.PreRequest = delegate(HttpWebRequest webRequest)
+                {
+                     webRequest.AllowAutoRedirect = true;
+                     webRequest.Timeout = 5000;
+                     return true;
+                };
+
                 page.UserAgent = "VizzitSpider";
                 var doc = new HtmlDocument();
                
@@ -91,7 +322,7 @@ namespace SpiderCore
                 else
                     currentPage = unvistedLinks.First<string>();
 
-                 PageData pageData;
+                PageData pageData;
                 //If it isn't friendly we need to extract the id
                 if(unvistedLinks.First<string>().Contains("id="))
                 {
@@ -101,52 +332,165 @@ namespace SpiderCore
                     pageData = new PageData(unvistedLinks.First<string>());
 
                 bool linkRelative = relativeCheck(pageData.Url);
+                //bool responseOk = pageResponseCheck(currentPage);
 
                 //Try to visit the page and extract links
                 try
                 {
-                    doc = page.Load(currentPage);
-                    linkData = new InternalLink(pageData.Url, page.StatusCode, linkRelative);
-                    visitedLinks.Add(pageData.Url, linkData);
-
-                    //Extract data from currentPage if status 200
-                    if (page.StatusCode == HttpStatusCode.OK && ownDomain)
+                    if (isFile)
                     {
-                        var extractor = new Extractor(doc);
-                        Dictionary<string, string> meta = extractor.GetMeta();
-                        string title = extractor.GetTitle();
-                        List<string> hrefTags = extractor.ExtractAllAHrefTags();
+                        //if (currentPage.Contains(domain))
+                        //  currentPage = currentPage.Replace(domain, "");
 
-                        //Iterate the links
-                        foreach (string hrefTag in hrefTags)
-                        {
-                            //Insert the link to the correct List
-                            if (!pageData.checkIfLinkExistInLinkString(hrefTag))
-                            {
-                                if (mailLinkCheck(hrefTag))
-                                    pageData.insertMailLink(hrefTag);
-                                else
-                                    if(!hrefTag.StartsWith("#"))
-                                        pageData.insertLink(hrefTag);
-                            }
-                        }   
-                        //Insert the whole range of new links
-                        insertNewLinks(hrefTags);
+                        Uri fileUrl = new Uri(currentPage);
+                        // Create a 'FileWebrequest' object with the specified Uri. 
+                        HttpWebRequest myFileWebRequest = (HttpWebRequest)WebRequest.Create(fileUrl);
+                        // Send the 'FileWebRequest' object and wait for response. 
+                        HttpWebResponse myFileWebResponse = (HttpWebResponse)myFileWebRequest.GetResponse();
+
+                        linkData = new InternalLink(pageData.Url, myFileWebResponse.StatusCode, linkRelative);
+                        visitedLinks.Add(pageData.Url, linkData);
+
+                        if (myFileWebResponse.ResponseUri.IsFile)
+                            meta.addFileLink();
+                        else if (!ownDomain && !myFileWebResponse.ResponseUri.IsFile)
+                            meta.addExternalLink();
+                        else
+                            meta.addInternalLink();   
+
+                        myFileWebResponse.Close();
+                        
+                        
                     }
+                    else if (!ownDomain)
+                    {
+                        if (!currentPage.StartsWith("http"))
+                            doc = page.Load("http://" + currentPage);
+                        else
+                            doc = page.Load(currentPage);
 
+                        linkData = new InternalLink(pageData.Url, page.StatusCode, linkRelative);
+                        visitedLinks.Add(pageData.Url, linkData);
+                        meta.addExternalLink();
+                    }
+                    else
+                    {
+                        WebRequest webRequest = WebRequest.Create(currentPage);
+                        HttpWebResponse webResponse = (HttpWebResponse)webRequest.GetResponse();
+                        Stream stream = webResponse.GetResponseStream();
+                        string responseString = ((TextReader)new StreamReader(stream)).ReadToEnd();
+                        
+                        doc.LoadHtml(responseString);
+                        linkData = new InternalLink(pageData.Url, webResponse.StatusCode, linkRelative);
+                        visitedLinks.Add(pageData.Url, linkData);
+
+
+                        //Extract data from currentPage if status 200
+                        if (webResponse.StatusCode == HttpStatusCode.OK && ownDomain)
+                        {
+                            var extractor = new Extractor(doc);
+                            Dictionary<string, string> metaList = extractor.GetMeta();
+                            string title = extractor.GetTitle();
+                            List<string> hrefTags = extractor.ExtractAllAHrefTags();
+
+                            //Iterate the links
+                            foreach (string hrefTag in hrefTags)
+                            {
+                                //Insert the link to the correct List
+                                if (!pageData.checkIfLinkExistInLinkString(hrefTag))
+                                {
+                                    if (mailLinkCheck(hrefTag))
+                                        pageData.insertMailLink(hrefTag);
+                                    else
+                                        if (!hrefTag.StartsWith("#"))
+                                            pageData.insertLink(hrefTag);
+                                }
+                            }
+                            //Insert the whole range of new links
+                            insertNewLinks(hrefTags);
+                            webResponse.Close();
+                        }
+                        meta.addInternalLink();
+                    }
                     //Add the finished page
-                    pageDataList.Add(pageData);
+                    if (!isFile && ownDomain)
+                        pageDataList.Add(pageData);
+
                     //Remove the link since we are done with it
                     unvistedLinks.RemoveAt(0);
                 }
-                catch(Exception ex)
+                catch (WebException ex)
                 {
+                    if (ex.Message.Contains("(404) Not Found"))
+                    {
+                        linkData = new InternalLink(pageData.Url, HttpStatusCode.NotFound, linkRelative);
+                        visitedLinks.Add(pageData.Url, linkData);
+                    }
+                    else if (ex.Message.Contains("(403) Forbidden"))
+                    {
+                        linkData = new InternalLink(pageData.Url, HttpStatusCode.Forbidden, linkRelative);
+                        visitedLinks.Add(pageData.Url, linkData);
+                    }
+                    else if(ex.Message.Contains(@"The underlying connection was closed: An unexpected error occurred on a receive"))
+                    {
+                        //usualy timeout because of low IIS treshold.
+                        string customStatus = "connectionClosed";
+                        linkData = new InternalLink(pageData.Url, customStatus, linkRelative);
+                        visitedLinks.Add(pageData.Url, linkData);
+                    }
+                    else if(ex.Message.Contains(@"The remote name could not be resolved"))
+                    {
+                        string customStatus = "remoteNameNotResolved";
+                        linkData = new InternalLink(pageData.Url, customStatus, linkRelative);
+                        visitedLinks.Add(pageData.Url, linkData);
+                    }
+                    else if (ex.Message.Contains(@"Unable to connect to the remote server"))
+                    {
+                        string customStatus = "unableToConnect";
+                        linkData = new InternalLink(pageData.Url, customStatus, linkRelative);
+                        visitedLinks.Add(pageData.Url, linkData);
+                    }
+                    else if (ex.Message.Contains(@"Could not establish trust relationship for the SSL/TLS secure channel"))
+                    {
+                        string customStatus = "SSL";
+                        linkData = new InternalLink(pageData.Url, customStatus, linkRelative);
+                        visitedLinks.Add(pageData.Url, linkData);
+                    }
+                    else if (ex.Message.Contains(@"Unable to connect to the remote server"))
+                    {
+                        string customStatus = "unableToConnect";
+                        linkData = new InternalLink(pageData.Url, customStatus, linkRelative);
+                        visitedLinks.Add(pageData.Url, linkData);
+                    }
+                    else if (ex.Message.Contains(@"Invalid URI: The hostname could not be parsed"))
+                    {
+                        string customStatus = "invalidURI";
+                        linkData = new InternalLink(pageData.Url, customStatus, linkRelative);
+                        visitedLinks.Add(pageData.Url, linkData);
+                    }
+                    else if (ex.Message.Contains(@"The operation has timed out"))
+                    {
+                        string customStatus = "timeOut";
+                        linkData = new InternalLink(pageData.Url, customStatus, linkRelative);
+                        visitedLinks.Add(pageData.Url, linkData);
+                    }
+                    else
+                        newLog.logLine("General webexception " + ex.Message, unvistedLinks.First<string>());
+
                     //Removed the faulty link, needs a better handling
+                    meta.totalLinks++;
                     unvistedLinks.RemoveAt(0);
-                    errorMsg = ex.Message;
+                }
+                catch (Exception ex)
+                {
+                    newLog.logLine("General exception: " + ex.GetType() +" " + ex.Message, unvistedLinks.First<string>());
+                    unvistedLinks.RemoveAt(0);
                 }
             }
             buildLinkLists();
+
+            GuiLogger.Log(String.Format("Finished crawling {0}", domain));
+            newLog.logLine("Spider", "done");
         }
 
         /// <summary>
@@ -156,12 +500,7 @@ namespace SpiderCore
         private void buildLinkLists()
         {
             foreach(PageData pd in pageDataList)
-            {
-                pd.insertLinksToLinks(visitedLinks);
-                // Not sure this is neccessary, it's cleared since we don't need it anymore.
-                // However, without a Get on linksString Newtonsoft won't include it in the JSON anyway.
-                pd.clearLinkStrings();
-            }
+                 pd.insertLinksToLinks(visitedLinks);
         }
 
         /// <summary>
@@ -172,6 +511,15 @@ namespace SpiderCore
         private bool relativeCheck(string url)
         {
             if (url.Contains("http:") || url.Contains("www.") || url.Contains("https:"))
+                return false;
+            else
+                return true;
+        }
+
+        private bool isFileCheck(string url)
+        {
+            if (url.EndsWith(".aps") || url.EndsWith("/") || url.EndsWith(".aspx") || url.EndsWith(".htm") ||
+                        url.EndsWith(".html") || url.EndsWith(".xhtml") || url.EndsWith(".jhtml"))
                 return false;
             else
                 return true;
@@ -203,6 +551,35 @@ namespace SpiderCore
                 return true;
         }
 
+        private bool pageResponseCheck(string url)
+        {
+            WebRequest webRequest = WebRequest.Create(url);
+
+            // Set the 'Timeout' property in Milliseconds.
+            webRequest.Timeout = 10000;
+
+            try
+            {
+                // This request will throw a WebException if it reaches the timeout limit before it is able to fetch the resource.
+                HttpWebResponse webResponse = (HttpWebResponse)webRequest.GetResponse();
+                Stream stream = webResponse.GetResponseStream();
+                string responseString = ((TextReader)new StreamReader(stream)).ReadToEnd();
+                webResponse.Close();
+                return true;
+            }
+            catch (WebException ex)
+            {
+                if(ex.Message.Contains("Timeout"))
+                {
+                    newLog.logLine(ex.Message + " from pageResponseCheck", unvistedLinks.First<string>());
+                    return false;
+                }
+                else
+                    return true;
+
+            }
+        }
+
         /// <summary>
         /// Inserts new unvisted links
         /// </summary>
@@ -228,7 +605,7 @@ namespace SpiderCore
                         resetI = true;
                 }
 
-                if (!relativeCheck(hrefTags[i]))
+                /*if (!relativeCheck(hrefTags[i]))
                     if (!ownDomainCheck(hrefTags[i]))
                     {
                         hrefTags.Remove(hrefTags[i]);
@@ -236,7 +613,7 @@ namespace SpiderCore
                             i--;
                         else
                            resetI = true;
-                    }
+                    }*/
             }
 
             var modifiedList = hrefTags;

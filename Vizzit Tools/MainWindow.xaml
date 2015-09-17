@@ -1,12 +1,32 @@
 ﻿<Window x:Class="Vizzit_Tools.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Vizzit Tools" Height="350" Width="525">
-    <Grid>
-        <TextBox x:Name="DomainTextBox" HorizontalAlignment="Left" Height="23" Margin="70,29,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        Title="Vizzit Tools" Height="500" Width="700">
+    <Grid Margin="0,0,0,3">
+        <TextBox x:Name="DomainTextBox" HorizontalAlignment="Left" Height="23" Margin="80,30,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="197" TabIndex="1"/>
         <TextBlock x:Name="DomainTextBlock" HorizontalAlignment="Left" Margin="10,30,0,0" TextWrapping="Wrap" Text="Domain" VerticalAlignment="Top"/>
-        <Button x:Name="StartButton" Content="Crawl" HorizontalAlignment="Left" Margin="204,29,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="-0.08,-0.15" Height="23" Click="StartButton_Click"/>
-        <TextBlock x:Name="DebugTextBlock" HorizontalAlignment="Left" Margin="10,63,0,0" TextWrapping="Wrap" Text="Debug" VerticalAlignment="Top" Height="246" Width="497"/>
+        <Button x:Name="StartButton" Content="Crawl" HorizontalAlignment="Left" Margin="603,58,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="-0.08,-0.15" Height="23" Click="StartButton_Click"/>
+        <TextBlock x:Name="DebugTextBlock" HorizontalAlignment="Left" Margin="482,144,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="258" Width="196" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto"/>
+        <TextBox x:Name="StartPageTextBox" HorizontalAlignment="Left" Height="23" Margin="80,59,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="197" TabIndex="2"/>
+        <TextBlock x:Name="StartPageTextBlock" HorizontalAlignment="Left" Margin="10,58,0,0" TextWrapping="Wrap" Text="Startpage" VerticalAlignment="Top"/>
+        <Button x:Name="AddBtn" Content="Add" HorizontalAlignment="Left" Margin="282,88,0,0" VerticalAlignment="Top" Width="75" Height="22" Click="AddBtn_Click"/>
+        <Button x:Name="RemoveBtn" Content="Remove" HorizontalAlignment="Left" Margin="402,378,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="0.92,-0.2" Height="24" Click="RemoveBtn_Click"/>
+        <RadioButton x:Name="ListRadioBtn" Content="List" HorizontalAlignment="Left" Margin="5,121,0,0" VerticalAlignment="Top"/>
+        <RadioButton x:Name="DbRadioBtn" Content="DB" HorizontalAlignment="Left" Margin="47,121,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.012,0.667"/>
+        <ListView x:Name="CustomerLsv" HorizontalAlignment="Left" Height="229" Margin="5,144,0,0" VerticalAlignment="Top" Width="472">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Domain" Width="200" DisplayMemberBinding="{Binding Domain}"/>
+                    <GridViewColumn Header="Startpage" Width="100" DisplayMemberBinding="{Binding Startpage}"/>
+                    <GridViewColumn Header="Customer ID" Width="100" DisplayMemberBinding="{Binding Id}"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <TextBox x:Name="CustomerIdTextBox" HorizontalAlignment="Left" Height="23" Margin="80,87,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="197" TabIndex="3"/>
+        <TextBlock x:Name="CustIdTextBlock" HorizontalAlignment="Left" Margin="10,87,0,0" TextWrapping="Wrap" Text="Customer Id" VerticalAlignment="Top"/>
+        <Button x:Name="ClrBtn" Content="Clear" HorizontalAlignment="Left" Margin="319,378,0,0" VerticalAlignment="Top" Width="78" Height="24" Click="ClrBtn_Click"/>
+        <TextBlock x:Name="threadTextBlock" HorizontalAlignment="Left" Margin="490,30,0,0" TextWrapping="Wrap" Text="Threads" VerticalAlignment="Top"/>
+        <TextBox x:Name="coreTextBox" HorizontalAlignment="Left" Height="23" Margin="558,30,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" RenderTransformOrigin="-0.57,-0.107" TabIndex="4"/>
 
     </Grid>
 </Window>

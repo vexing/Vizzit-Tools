@@ -1,0 +1,12 @@
+E:\Spider\Vizzit-Tools\SpiderCore\bin\Release\SpiderCore.dll
+E:\Spider\Vizzit-Tools\SpiderCore\bin\Release\SpiderCore.pdb
+E:\Spider\Vizzit-Tools\SpiderCore\bin\Release\HtmlAgilityPack.dll
+E:\Spider\Vizzit-Tools\SpiderCore\bin\Release\Ionic.Zip.dll
+E:\Spider\Vizzit-Tools\SpiderCore\bin\Release\MySql.Data.dll
+E:\Spider\Vizzit-Tools\SpiderCore\bin\Release\Newtonsoft.Json.dll
+E:\Spider\Vizzit-Tools\SpiderCore\bin\Release\HtmlAgilityPack.pdb
+E:\Spider\Vizzit-Tools\SpiderCore\bin\Release\HtmlAgilityPack.xml
+E:\Spider\Vizzit-Tools\SpiderCore\bin\Release\Newtonsoft.Json.xml
+E:\Spider\Vizzit-Tools\SpiderCore\obj\Release\SpiderCore.dll
+E:\Spider\Vizzit-Tools\SpiderCore\obj\Release\SpiderCore.pdb
+E:\Spider\Vizzit-Tools\SpiderCore\obj\Release\Spider.csprojResolveAssemblyReference.cache

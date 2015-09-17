@@ -7,7 +7,7 @@ using System.IO;
 using System.IO.Compression;
 using Ionic.Zip;
 
-namespace FileHandler
+namespace Spider
 {
     public static class StringCompressor
     {
@@ -41,7 +41,7 @@ namespace FileHandler
         /// </summary>
         /// <param name="text">The text.</param>
         /// <returns></returns>
-        public static string CreateZipFile(string text)
+        public static string CreateZipFile(string text, int temp)
         {
             string fileName = Directory.GetCurrentDirectory() + @"\spiderData.txt";
             string error;
@@ -72,6 +72,30 @@ namespace FileHandler
             return zipFile;
         }
 
+        public static string CreateZipFile(string jsonFileName)
+        {
+            using (ZipFile zip = new ZipFile())
+            {
+                zip.AddFile(jsonFileName);
+                zip.Save(String.Format("{0}.zip", jsonFileName));
+            }
+
+            return String.Format("{0}.zip", jsonFileName);
+        }
+
+        public static string CreateZipFile(string jsonFileName, string metaFileName)
+        {
+            using (ZipFile zip = new ZipFile())
+            {
+                zip.AddFile(jsonFileName);
+                zip.AddFile(metaFileName);
+                zip.Save(String.Format("{0}.zip", jsonFileName));
+            }
+
+            return String.Format("{0}.zip", jsonFileName);
+        }
+            
+      
         /// <summary>
         /// Decompresses the string.
         /// </summary>

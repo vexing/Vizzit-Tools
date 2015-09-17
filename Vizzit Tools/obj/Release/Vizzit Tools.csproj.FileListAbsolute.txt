@@ -1,0 +1,24 @@
+E:\Spider\Vizzit-Tools\Vizzit Tools\bin\Release\Vizzit Tools.exe.config
+E:\Spider\Vizzit-Tools\Vizzit Tools\bin\Release\Vizzit Tools.exe
+E:\Spider\Vizzit-Tools\Vizzit Tools\bin\Release\Vizzit Tools.pdb
+E:\Spider\Vizzit-Tools\Vizzit Tools\bin\Release\FileHandler.dll
+E:\Spider\Vizzit-Tools\Vizzit Tools\bin\Release\Newtonsoft.Json.dll
+E:\Spider\Vizzit-Tools\Vizzit Tools\bin\Release\SpiderCore.dll
+E:\Spider\Vizzit-Tools\Vizzit Tools\bin\Release\MySql.Data.dll
+E:\Spider\Vizzit-Tools\Vizzit Tools\bin\Release\HtmlAgilityPack.dll
+E:\Spider\Vizzit-Tools\Vizzit Tools\bin\Release\Ionic.Zip.dll
+E:\Spider\Vizzit-Tools\Vizzit Tools\bin\Release\FileHandler.pdb
+E:\Spider\Vizzit-Tools\Vizzit Tools\bin\Release\SpiderCore.pdb
+E:\Spider\Vizzit-Tools\Vizzit Tools\bin\Release\Newtonsoft.Json.xml
+E:\Spider\Vizzit-Tools\Vizzit Tools\bin\Release\HtmlAgilityPack.pdb
+E:\Spider\Vizzit-Tools\Vizzit Tools\bin\Release\HtmlAgilityPack.xml
+E:\Spider\Vizzit-Tools\Vizzit Tools\obj\Release\Vizzit Tools.csprojResolveAssemblyReference.cache
+E:\Spider\Vizzit-Tools\Vizzit Tools\obj\Release\MainWindow.baml
+E:\Spider\Vizzit-Tools\Vizzit Tools\obj\Release\MainWindow.g.cs
+E:\Spider\Vizzit-Tools\Vizzit Tools\obj\Release\App.g.cs
+E:\Spider\Vizzit-Tools\Vizzit Tools\obj\Release\Vizzit Tools_MarkupCompile.cache
+E:\Spider\Vizzit-Tools\Vizzit Tools\obj\Release\Vizzit Tools.g.resources
+E:\Spider\Vizzit-Tools\Vizzit Tools\obj\Release\Vizzit_Tools.Properties.Resources.resources
+E:\Spider\Vizzit-Tools\Vizzit Tools\obj\Release\Vizzit Tools.csproj.GenerateResource.Cache
+E:\Spider\Vizzit-Tools\Vizzit Tools\obj\Release\Vizzit Tools.exe
+E:\Spider\Vizzit-Tools\Vizzit Tools\obj\Release\Vizzit Tools.pdb

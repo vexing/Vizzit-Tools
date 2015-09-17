@@ -1,0 +1,14 @@
+E:\Spider\Vizzit-Tools\FileHandler\bin\Release\FileHandler.dll
+E:\Spider\Vizzit-Tools\FileHandler\bin\Release\FileHandler.pdb
+E:\Spider\Vizzit-Tools\FileHandler\bin\Release\Ionic.Zip.dll
+E:\Spider\Vizzit-Tools\FileHandler\bin\Release\SpiderCore.dll
+E:\Spider\Vizzit-Tools\FileHandler\bin\Release\MySql.Data.dll
+E:\Spider\Vizzit-Tools\FileHandler\bin\Release\HtmlAgilityPack.dll
+E:\Spider\Vizzit-Tools\FileHandler\bin\Release\Newtonsoft.Json.dll
+E:\Spider\Vizzit-Tools\FileHandler\bin\Release\SpiderCore.pdb
+E:\Spider\Vizzit-Tools\FileHandler\bin\Release\HtmlAgilityPack.pdb
+E:\Spider\Vizzit-Tools\FileHandler\bin\Release\HtmlAgilityPack.xml
+E:\Spider\Vizzit-Tools\FileHandler\bin\Release\Newtonsoft.Json.xml
+E:\Spider\Vizzit-Tools\FileHandler\obj\Release\FileHandler.csprojResolveAssemblyReference.cache
+E:\Spider\Vizzit-Tools\FileHandler\obj\Release\FileHandler.dll
+E:\Spider\Vizzit-Tools\FileHandler\obj\Release\FileHandler.pdb
