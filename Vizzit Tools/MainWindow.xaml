@@ -6,7 +6,7 @@
         <TextBox x:Name="DomainTextBox" HorizontalAlignment="Left" Height="23" Margin="80,30,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="197" TabIndex="1"/>
         <TextBlock x:Name="DomainTextBlock" HorizontalAlignment="Left" Margin="10,30,0,0" TextWrapping="Wrap" Text="Domain" VerticalAlignment="Top"/>
         <Button x:Name="StartButton" Content="Crawl" HorizontalAlignment="Left" Margin="603,58,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="-0.08,-0.15" Height="23" Click="StartButton_Click"/>
-        <TextBlock x:Name="DebugTextBlock" HorizontalAlignment="Left" Margin="482,144,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="258" Width="196" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto"/>
+        <TextBlock x:Name="DebugTextBlock" HorizontalAlignment="Left" Margin="482,144,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="258" Width="196" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.CanContentScroll="True"/>
         <TextBox x:Name="StartPageTextBox" HorizontalAlignment="Left" Height="23" Margin="80,59,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="197" TabIndex="2"/>
         <TextBlock x:Name="StartPageTextBlock" HorizontalAlignment="Left" Margin="10,58,0,0" TextWrapping="Wrap" Text="Startpage" VerticalAlignment="Top"/>
         <Button x:Name="AddBtn" Content="Add" HorizontalAlignment="Left" Margin="282,88,0,0" VerticalAlignment="Top" Width="75" Height="22" Click="AddBtn_Click"/>

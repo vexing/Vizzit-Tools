@@ -25,6 +25,7 @@ namespace Vizzit_Tools
         public MainWindow()
         {
             InitializeComponent();
+            ListRadioBtn.IsChecked = true;
             GuiLogger.LogAdded += new EventHandler(GuiLogger_LogAdded);
         }
 

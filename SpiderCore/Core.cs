@@ -296,6 +296,12 @@ namespace SpiderCore
                     unvistedLinks.RemoveAt(0);
                     continue;
                 }
+                //Remove googletranslate, umea for example have this
+                if (unvistedLinks.First<string>().StartsWith(@"//translate.google.com/translate?sl=sv"))
+                {
+                    unvistedLinks.RemoveAt(0);
+                    continue;
+                }
 
                 if (!unvistedLinks.First<string>().StartsWith("/") &&
                     !unvistedLinks.First<string>().StartsWith("http"))
@@ -365,11 +371,13 @@ namespace SpiderCore
                     else if (!ownDomain)
                     {
                         if (!currentPage.StartsWith("http"))
-                            doc = page.Load("http://" + currentPage);
-                        else
-                            doc = page.Load(currentPage);
+                           currentPage = @"http://" + currentPage;
 
-                        linkData = new InternalLink(pageData.Url, page.StatusCode, linkRelative);
+                        WebRequest webRequest = WebRequest.Create(currentPage);
+                        HttpWebResponse webResponse = (HttpWebResponse)webRequest.GetResponse();
+                        Stream stream = webResponse.GetResponseStream();
+
+                        linkData = new InternalLink(pageData.Url, webResponse.StatusCode, linkRelative);
                         visitedLinks.Add(pageData.Url, linkData);
                         meta.addExternalLink();
                     }
@@ -431,7 +439,32 @@ namespace SpiderCore
                         linkData = new InternalLink(pageData.Url, HttpStatusCode.Forbidden, linkRelative);
                         visitedLinks.Add(pageData.Url, linkData);
                     }
-                    else if(ex.Message.Contains(@"The underlying connection was closed: An unexpected error occurred on a receive"))
+                    else if (ex.Message.Contains("(500) Internal Server Error"))
+                    {
+                        linkData = new InternalLink(pageData.Url, HttpStatusCode.InternalServerError, linkRelative);
+                        visitedLinks.Add(pageData.Url, linkData);
+                    }
+                    else if (ex.Message.Contains("(401) Unauthorized"))
+                    {
+                        linkData = new InternalLink(pageData.Url, HttpStatusCode.Unauthorized, linkRelative);
+                        visitedLinks.Add(pageData.Url, linkData);
+                    }
+                    else if (ex.Message.Contains("(502) Bad Gateway"))
+                    {
+                        linkData = new InternalLink(pageData.Url, HttpStatusCode.BadGateway, linkRelative);
+                        visitedLinks.Add(pageData.Url, linkData);
+                    }
+                    else if (ex.Message.Contains("(410) Gone"))
+                    {
+                        linkData = new InternalLink(pageData.Url, HttpStatusCode.Gone, linkRelative);
+                        visitedLinks.Add(pageData.Url, linkData);
+                    }
+                    else if (ex.Message.Contains("(412) Not logged in"))
+                    {
+                        linkData = new InternalLink(pageData.Url, HttpStatusCode.PreconditionFailed, linkRelative);
+                        visitedLinks.Add(pageData.Url, linkData);
+                    }
+                    else if(ex.Message.Contains(@"The underlying connection was closed"))
                     {
                         //usualy timeout because of low IIS treshold.
                         string customStatus = "connectionClosed";
@@ -444,13 +477,19 @@ namespace SpiderCore
                         linkData = new InternalLink(pageData.Url, customStatus, linkRelative);
                         visitedLinks.Add(pageData.Url, linkData);
                     }
+                    else if (ex.Message.Contains(@"Too many automatic redirections were attempted"))
+                    {
+                        string customStatus = "tooManyRedirects";
+                        linkData = new InternalLink(pageData.Url, customStatus, linkRelative);
+                        visitedLinks.Add(pageData.Url, linkData);
+                    }
                     else if (ex.Message.Contains(@"Unable to connect to the remote server"))
                     {
                         string customStatus = "unableToConnect";
                         linkData = new InternalLink(pageData.Url, customStatus, linkRelative);
                         visitedLinks.Add(pageData.Url, linkData);
                     }
-                    else if (ex.Message.Contains(@"Could not establish trust relationship for the SSL/TLS secure channel"))
+                    else if (ex.Message.Contains(@"Could not create SSL/TLS secure channel"))
                     {
                         string customStatus = "SSL";
                         linkData = new InternalLink(pageData.Url, customStatus, linkRelative);
@@ -479,6 +518,15 @@ namespace SpiderCore
 
                     //Removed the faulty link, needs a better handling
                     meta.totalLinks++;
+                    unvistedLinks.RemoveAt(0);
+                }
+                catch (UriFormatException ex)
+                {
+                    newLog.logLine("Uri exception: " + ex.GetType() + " " + ex.Message, unvistedLinks.First<string>());
+
+                    string customStatus = "invalidUri";
+                    linkData = new InternalLink(pageData.Url, customStatus, linkRelative);
+                    visitedLinks.Add(pageData.Url, linkData);
                     unvistedLinks.RemoveAt(0);
                 }
                 catch (Exception ex)
