@@ -74,8 +74,8 @@ namespace Vizzit_Tools
                     Customer customer = new Customer();
                     try
                     {
-                        customer.Domain = SelectQuery.GetDomain(customerDb)[0];
-                        customer.Id = removeTrailingSlash(SelectQuery.GetCustomerId(customerDb)[0]);
+                        customer.Domain = createFullurl(SelectQuery.GetDomain(customerDb)[0]);
+                        customer.Id = SelectQuery.GetCustomerId(customerDb)[0];
                         customer.Startpage = SelectQuery.GetStartPage(customerDb)[0];
                         customerList.Add(customer);
                     }
@@ -92,70 +92,21 @@ namespace Vizzit_Tools
             }
             else
                 TempHomeFunc();
-            //Initialize ini = new Initialize(2);
-           /* DateTime startTime = DateTime.Now;
-            var spider = new Core(@"http://www.vizzit.se", "vizzit_se");
-            string firstPage = "/";
-            var output = spider.StartSpider(firstPage);
-
-            //var zippedJson = StringCompressor.CreateZipFile(output.JsonString);
-            //FileSend.SendFile(zippedJson);
-
-            TimeSpan span = DateTime.Now.Subtract(startTime);
-            DebugTextBlock.Text += span.TotalSeconds;
-
-            /*if (DomainValidation())
-            {
-                DebugTextBlock.Text = "Crawl Started!";
-                var spider = new Core(DomainTextBox.Text);
-                spider.StartSpider();
-            }
-            else
-                DebugTextBlock.Text = "Domain value incorrect!";*/
         }
 
-        private string removeTrailingSlash(string url)
+        private string createFullurl(string url)
         {
             if (url.EndsWith(@"/"))
                 url = url.Remove(url.Length - 1);
 
+            if (!url.StartsWith(@"http://") || !url.StartsWith(@"https://"))
+                url = @"http://" + url;
             return url;
         }
 
         private void TempHomeFunc()
         {
-            List<string> urlList = new List<string>();
-            
-            //urlList.Add(@"http://www.folkuniversitetet.se/");
-            /*urlList.Add(@"http://www.sodertalje.se/");
-            urlList.Add(@"http://www.umea.se/");
-            urlList.Add(@"http://www.essve.se/");
-            urlList.Add(@"http://www.getinge.com/sv/");
-            urlList.Add(@"http://www.kustbevakningen.se/");
-            urlList.Add(@"http://www.ledarna.se/");
-            urlList.Add(@"http://www.lul.se/");
-            urlList.Add(@"http://www.akademiska.se/");
-            urlList.Add(@"https://lakemedelsverket.se/");
-            urlList.Add(@"http://www.phadia.com/sv/");
-            urlList.Add(@"http://www.norrtalje.se/");
-            urlList.Add(@"http://www.skane.se/");
-            urlList.Add(@"http://www.ragnsells.se/");
-            urlList.Add(@"http://poseidon.goteborg.se/");
-            urlList.Add(@"http://www.plannja.se/husagare-bygghandel/");
-            urlList.Add(@"http://www.saco.se/");
-            urlList.Add(@"http://samhall.se/");
-            urlList.Add(@"http://www.scb.se/");
-            urlList.Add(@"http://www.sjofartsverket.se/");
-            urlList.Add(@"http://www.tunabyggen.se/");
-            urlList.Add(@"http://www.taby.se/");
-            urlList.Add(@"http://www.lvn.se/");
-            urlList.Add(@"http://www.ltv.se/");
-            urlList.Add(@"http://www.engelholm.se/");*/
-            
-            /*urlList.Add(@"http://www.osteraker.se");
-            urlList.Add(@"http://www.jordbruksverket.se");
-            urlList.Add(@"http://malmo.se");
-            urlList.Add(@"http://www.solleftea.se");*/
+            List<string> urlList = new List<string>(); 
 
             urlList.Add(@"http://www.molndal.se");
 

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.IO;
 using System.IO.Compression;
 using Ionic.Zip;
+using SpiderCore;
 
 namespace Spider
 {
@@ -43,7 +44,7 @@ namespace Spider
         /// <returns></returns>
         public static string CreateZipFile(string text, int temp)
         {
-            string fileName = Directory.GetCurrentDirectory() + @"\spiderData.txt";
+            string fileName = @Directory.GetCurrentDirectory() + @"\spiderData.txt";
             string error;
 
             try
@@ -53,7 +54,7 @@ namespace Spider
                     File.Delete(fileName);
 
                 // Create the file. 
-                using (FileStream fs = File.Create(fileName))
+                using (FileStream fs = File.Create(@fileName))
                 {
                     Byte[] info = new UTF8Encoding(true).GetBytes(text);
                     fs.Write(info, 0, info.Length);
@@ -61,12 +62,12 @@ namespace Spider
             }
             catch (Exception ex) { error = ex.Message; }
 
-            string zipFile = Directory.GetCurrentDirectory() + @"spiderData.zip";
+            string zipFile = @Directory.GetCurrentDirectory() + @"spiderData.zip";
 
             using (ZipFile zip = new ZipFile())
             {
-                zip.AddFile(fileName, "");
-                zip.Save(zipFile);
+                zip.AddFile(@fileName, "");
+                zip.Save(@zipFile);
             }
 
             return zipFile;
@@ -77,22 +78,30 @@ namespace Spider
             using (ZipFile zip = new ZipFile())
             {
                 zip.AddFile(jsonFileName);
-                zip.Save(String.Format("{0}.zip", jsonFileName));
+                zip.Save(String.Format("{0}.zip", @jsonFileName));
             }
 
-            return String.Format("{0}.zip", jsonFileName);
+            return String.Format("{0}.zip", @jsonFileName);
         }
 
         public static string CreateZipFile(string jsonFileName, string metaFileName)
         {
-            using (ZipFile zip = new ZipFile())
+            try
             {
-                zip.AddFile(jsonFileName);
-                zip.AddFile(metaFileName);
-                zip.Save(String.Format("{0}.zip", jsonFileName));
-            }
+                using (ZipFile zip = new ZipFile())
+                {
+                    zip.AddFile(@jsonFileName);
+                    zip.AddFile(@metaFileName);
+                    zip.Save(String.Format("{0}.zip", @jsonFileName));
+                }
 
-            return String.Format("{0}.zip", jsonFileName);
+                return String.Format("{0}.zip", @jsonFileName);
+            }
+            catch(Exception ex)
+            {
+                GuiLogger.Log(ex.Message);
+                return null;
+            }
         }
             
       

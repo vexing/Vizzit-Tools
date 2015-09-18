@@ -63,22 +63,29 @@ namespace SpiderCore
 
             DateTime date = DateTime.Now;
 
-            jsonFileName = String.Format(@"{0}_{1}.json", customer_id, date.ToString("yyMMdd_HHmmss"));
-            using (StreamWriter sw = new StreamWriter(jsonFileName))
-            using (JsonWriter writer = new JsonTextWriter(sw))
+            try
             {
-                serializer.Serialize(writer, pageDataList);
-            }
+                jsonFileName = String.Format(@"{0}_{1}.json", customer_id, date.ToString("yyMMdd_HHmmss"));
+                using (StreamWriter sw = new StreamWriter(@jsonFileName))
+                using (JsonWriter writer = new JsonTextWriter(sw))
+                {
+                    serializer.Serialize(writer, pageDataList);
+                }
 
-            string metaFileName = String.Format(@"{0}_{1}.meta", customer_id, date.ToString("yyMMdd_HHmmss"));
-            using (StreamWriter sw = new StreamWriter(metaFileName))
-            using (JsonWriter writer = new JsonTextWriter(sw))
+                string metaFileName = String.Format(@"{0}_{1}.meta", customer_id, date.ToString("yyMMdd_HHmmss"));
+                using (StreamWriter sw = new StreamWriter(@metaFileName))
+                using (JsonWriter writer = new JsonTextWriter(sw))
+                {
+                    serializer.Serialize(writer, metaData);
+                }
+
+                string zipFile = StringCompressor.CreateZipFile(jsonFileName, metaFileName);
+                FileHandler.FileSend.SendFile(zipFile, customer_id);
+            }
+            catch(Exception ex)
             {
-                serializer.Serialize(writer, metaData);
+                GuiLogger.Log(ex.Message);
             }
-
-            string zipFile = StringCompressor.CreateZipFile(jsonFileName, metaFileName);
-            FileHandler.FileSend.SendFile(zipFile, customer_id);            
         }
 
         /// <summary>
