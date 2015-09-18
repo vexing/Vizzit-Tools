@@ -27,14 +27,14 @@ namespace SpiderCore.Db.Queries
             return con.Query(sqlQuery);
         }
 
-        public static List<string> GetStartPage()
+        public static List<string> GetStartPage(string db)
         {
             Connector con = new Connector();
-            string sqlQuery = @"
+            string sqlQuery = String.Format(@"
                 SELECT 
                     first_page
                 FROM
-                    v2_sundsvallskommun_se.settings";
+                    {0}.settings", db);
 
              return con.Query(sqlQuery);
         }
@@ -52,6 +52,17 @@ namespace SpiderCore.Db.Queries
                 WHERE
                     p.name = 'database_name'
                         AND p.value = '{0}'", db);
+
+            return con.Query(sqlQuery);
+        }
+
+        public static List<string> GetCustomerId(string db)
+        {
+            Connector con = new Connector();
+            string sqlQuery = String.Format(
+                "SELECT s.customer_id FROM vizzit_login.sites s JOIN vizzit_login.company_parameters cp ON cp.company_id = s.company_id WHERE cp.name = 'database_name' AND cp.value = '{0}'", db);
+
+            GuiLogger.Log(sqlQuery);
 
             return con.Query(sqlQuery);
         }

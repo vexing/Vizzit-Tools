@@ -50,6 +50,8 @@ namespace SpiderCore
         /// </summary>
         /// <param name="pageDataList">List on all PageData objects</param>
         /// <param name="visitedLinks">list of all InternalLinks</param>
+        /// <param name="customer_id">vizzit customer_id</param>
+        /// <param name="metaData">meta data object</param>
         public Output(List<PageData> pageDataList, Dictionary<string, InternalLink> visitedLinks, string customer_id, Meta metaData)
         {
             this.metaData = metaData;

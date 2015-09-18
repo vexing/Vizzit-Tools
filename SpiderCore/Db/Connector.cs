@@ -48,6 +48,7 @@ namespace SpiderCore.Db
             catch (MySqlException e)
             {
                 string errorMsg = e.Message;
+                GuiLogger.Log(errorMsg);
             }
             finally
             {
@@ -59,6 +60,7 @@ namespace SpiderCore.Db
 
             return r;
         }
+
         #region GetSet
         #endregion
     }

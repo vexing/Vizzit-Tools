@@ -5,8 +5,8 @@ C:\Users\antehagg\Documents\GitHub\Vizzit-Tools\Vizzit Tools\bin\Debug\Vizzit To
 C:\Users\antehagg\Documents\GitHub\Vizzit-Tools\Vizzit Tools\bin\Debug\Vizzit Tools.pdb
 C:\Users\antehagg\Documents\GitHub\Vizzit-Tools\Vizzit Tools\bin\Debug\FileHandler.dll
 C:\Users\antehagg\Documents\GitHub\Vizzit-Tools\Vizzit Tools\bin\Debug\SpiderCore.dll
-C:\Users\antehagg\Documents\GitHub\Vizzit-Tools\Vizzit Tools\bin\Debug\Ionic.Zip.dll
 C:\Users\antehagg\Documents\GitHub\Vizzit-Tools\Vizzit Tools\bin\Debug\HtmlAgilityPack.dll
+C:\Users\antehagg\Documents\GitHub\Vizzit-Tools\Vizzit Tools\bin\Debug\Ionic.Zip.dll
 C:\Users\antehagg\Documents\GitHub\Vizzit-Tools\Vizzit Tools\bin\Debug\FileHandler.pdb
 C:\Users\antehagg\Documents\GitHub\Vizzit-Tools\Vizzit Tools\bin\Debug\SpiderCore.pdb
 C:\Users\antehagg\Documents\GitHub\Vizzit-Tools\Vizzit Tools\bin\Debug\Newtonsoft.Json.xml
@@ -20,26 +20,3 @@ C:\Users\antehagg\Documents\GitHub\Vizzit-Tools\Vizzit Tools\obj\Debug\Vizzit To
 C:\Users\antehagg\Documents\GitHub\Vizzit-Tools\Vizzit Tools\obj\Debug\Vizzit Tools.g.resources
 C:\Users\antehagg\Documents\GitHub\Vizzit-Tools\Vizzit Tools\obj\Debug\Vizzit_Tools.Properties.Resources.resources
 C:\Users\antehagg\Documents\GitHub\Vizzit-Tools\Vizzit Tools\obj\Debug\Vizzit Tools.csproj.GenerateResource.Cache
-E:\Spider\Vizzit-Tools\Vizzit Tools\bin\Debug\Vizzit Tools.exe.config
-E:\Spider\Vizzit-Tools\Vizzit Tools\obj\Debug\Vizzit Tools.exe
-E:\Spider\Vizzit-Tools\Vizzit Tools\obj\Debug\Vizzit Tools.pdb
-E:\Spider\Vizzit-Tools\Vizzit Tools\bin\Debug\Vizzit Tools.exe
-E:\Spider\Vizzit-Tools\Vizzit Tools\bin\Debug\Vizzit Tools.pdb
-E:\Spider\Vizzit-Tools\Vizzit Tools\bin\Debug\FileHandler.dll
-E:\Spider\Vizzit-Tools\Vizzit Tools\bin\Debug\SpiderCore.dll
-E:\Spider\Vizzit-Tools\Vizzit Tools\bin\Debug\MySql.Data.dll
-E:\Spider\Vizzit-Tools\Vizzit Tools\bin\Debug\HtmlAgilityPack.dll
-E:\Spider\Vizzit-Tools\Vizzit Tools\bin\Debug\Ionic.Zip.dll
-E:\Spider\Vizzit-Tools\Vizzit Tools\bin\Debug\FileHandler.pdb
-E:\Spider\Vizzit-Tools\Vizzit Tools\bin\Debug\SpiderCore.pdb
-E:\Spider\Vizzit-Tools\Vizzit Tools\bin\Debug\Newtonsoft.Json.xml
-E:\Spider\Vizzit-Tools\Vizzit Tools\bin\Debug\HtmlAgilityPack.pdb
-E:\Spider\Vizzit-Tools\Vizzit Tools\bin\Debug\HtmlAgilityPack.xml
-E:\Spider\Vizzit-Tools\Vizzit Tools\obj\Debug\Vizzit Tools.csprojResolveAssemblyReference.cache
-E:\Spider\Vizzit-Tools\Vizzit Tools\obj\Debug\MainWindow.baml
-E:\Spider\Vizzit-Tools\Vizzit Tools\obj\Debug\MainWindow.g.cs
-E:\Spider\Vizzit-Tools\Vizzit Tools\obj\Debug\App.g.cs
-E:\Spider\Vizzit-Tools\Vizzit Tools\obj\Debug\Vizzit Tools_MarkupCompile.cache
-E:\Spider\Vizzit-Tools\Vizzit Tools\obj\Debug\Vizzit Tools.g.resources
-E:\Spider\Vizzit-Tools\Vizzit Tools\obj\Debug\Vizzit_Tools.Properties.Resources.resources
-E:\Spider\Vizzit-Tools\Vizzit Tools\obj\Debug\Vizzit Tools.csproj.GenerateResource.Cache

@@ -14,6 +14,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using FileHandler;
+using SpiderCore.Db;
+using SpiderCore.Db.Queries;
 
 namespace Vizzit_Tools
 {
@@ -54,7 +56,39 @@ namespace Vizzit_Tools
             }
             else if(DbRadioBtn.IsChecked.Value)
             {
-                DebugTextBlock.Text = DbRadioBtn.Name + " is checked!";
+                List<Customer> customerList = new List<Customer>();
+                List<string> dbList = new List<string>();
+
+                try
+                {
+                    Connector connector = new Connector();
+                    dbList = SelectQuery.GetCustomerDbList();
+                }
+                catch (Exception ex)
+                {
+                    DebugTextBlock.Text += ex.Message;
+                }
+
+                foreach (string customerDb in dbList)
+                {
+                    Customer customer = new Customer();
+                    try
+                    {
+                        customer.Domain = SelectQuery.GetDomain(customerDb)[0];
+                        customer.Id = removeTrailingSlash(SelectQuery.GetCustomerId(customerDb)[0]);
+                        customer.Startpage = SelectQuery.GetStartPage(customerDb)[0];
+                        customerList.Add(customer);
+                    }
+                    catch (Exception ex)
+                    {
+                        DebugTextBlock.Text += ex.Message;
+                    }
+                }
+
+                int threads = Int32.Parse(coreTextBox.Text);
+                DebugTextBlock.Text = "Started spider from database";
+                Initialize ini = new Initialize(threads, customerList);
+                
             }
             else
                 TempHomeFunc();
@@ -78,6 +112,14 @@ namespace Vizzit_Tools
             }
             else
                 DebugTextBlock.Text = "Domain value incorrect!";*/
+        }
+
+        private string removeTrailingSlash(string url)
+        {
+            if (url.EndsWith(@"/"))
+                url = url.Remove(url.Length - 1);
+
+            return url;
         }
 
         private void TempHomeFunc()
