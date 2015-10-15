@@ -12,3 +12,8 @@ E:\Spider\Vizzit-Tools\FileHandler\bin\Release\Newtonsoft.Json.xml
 E:\Spider\Vizzit-Tools\FileHandler\obj\Release\FileHandler.csprojResolveAssemblyReference.cache
 E:\Spider\Vizzit-Tools\FileHandler\obj\Release\FileHandler.dll
 E:\Spider\Vizzit-Tools\FileHandler\obj\Release\FileHandler.pdb
+C:\Users\antehagg\Documents\GitHub\Vizzit-Tools\FileHandler\bin\Release\FileHandler.dll
+C:\Users\antehagg\Documents\GitHub\Vizzit-Tools\FileHandler\bin\Release\FileHandler.pdb
+C:\Users\antehagg\Documents\GitHub\Vizzit-Tools\FileHandler\bin\Release\Ionic.Zip.dll
+C:\Users\antehagg\Documents\GitHub\Vizzit-Tools\FileHandler\obj\Release\FileHandler.dll
+C:\Users\antehagg\Documents\GitHub\Vizzit-Tools\FileHandler\obj\Release\FileHandler.pdb

@@ -1,6 +1,7 @@
 ﻿using Spider;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -17,6 +18,8 @@ namespace SpiderCore
         private List<Customer> customerList;
         private int crawlCounter;
         private int custNo;
+        private bool sendFile;
+        private bool dailyCheck;
 
         public Initialize(int threadMaxCount)
         {
@@ -31,26 +34,6 @@ namespace SpiderCore
                 else
                     Thread.Sleep(1000);
         }
-
-        /*public Initialize(int threadMaxCount, List<Tuple<string, string>> urlsToParse)
-        {
-            this.custNo = 0;
-            this.crawlCounter = 0;
-            customerList = urlsToParse;
-            this.threadMaxCount = threadMaxCount;
-            this.runningThreads = 0;
-            this.counter = 0;
-
-            while (urlsToParse.Count > counter)
-                if (runningThreads < threadMaxCount)
-                {
-                    counter++;
-                    runningThreads++;
-                    startThread();
-                }
-                else
-                    Thread.Sleep(1000);
-        }*/
 
         public Initialize(int threadMaxCount, List<Customer> customersToParse)
         {
@@ -112,12 +95,58 @@ namespace SpiderCore
                     Thread.Sleep(5000);
         }
 
+        public Initialize(List<string> urlsToParse, string customer_id)
+        {
+            Core core = new Core(customer_id);
+            core.StartSpider(urlsToParse);
+        }
+
+        public Initialize(int threadMaxCount, List<Customer> customersToParse, bool sendFile, bool dailyCheck)
+        {
+            this.dailyCheck = dailyCheck;
+            this.sendFile = sendFile;
+            this.custNo = 0;
+            this.crawlCounter = -1;
+            customerList = customersToParse;
+            this.threadMaxCount = threadMaxCount;
+            this.runningThreads = 0;
+            this.counter = 0;
+            bool newlyStarted = false;
+
+            Process currentProc = Process.GetCurrentProcess();
+            GuiLogger.Log("Using " + currentProc.PrivateMemorySize64.ToString() + " before we start");
+
+            while (customersToParse.Count > counter)
+                if (runningThreads < threadMaxCount)
+                {
+                    if (!newlyStarted)
+                    {
+                        newlyStarted = true;
+                        counter++;
+                        runningThreads++;
+                        startThreadList();
+                    }
+                    else
+                    {
+                        Thread.Sleep(2000);
+                        newlyStarted = false;
+                    }
+                }
+                else
+                    Thread.Sleep(2000);
+        }
+
         private void startCrawlList()
         {
             Thread thread = Thread.CurrentThread;
-            Output output = new Core(customerList[++crawlCounter].Domain, customerList[crawlCounter].Id).
-                StartSpider(++custNo, customerList[crawlCounter].Startpage, customerList[crawlCounter].Id);
+            Output output = new Core(customerList[++crawlCounter].Domain, customerList[crawlCounter].Id, customerList[crawlCounter].Database).
+                StartSpider(++custNo, customerList[crawlCounter].Startpage, customerList[crawlCounter].Id, sendFile, dailyCheck);
             runningThreads--;
+
+            GC.Collect();
+            Process currentProc = Process.GetCurrentProcess();
+            GuiLogger.Log("Using " + currentProc.PrivateMemorySize64.ToString() + " when all is done");
+           
         }
 
         private void startThreadList()
@@ -129,7 +158,7 @@ namespace SpiderCore
         private void startCrawl()
         {            
             Thread thread = Thread.CurrentThread;
-            var spider = new Core(customerStringList[crawlCounter++], crawlCounter.ToString());
+            var spider = new Core(customerStringList[crawlCounter++], crawlCounter.ToString(), customerList[crawlCounter].Database);
             Output output = spider.StartSpider(++custNo, "/");
             StringCompressor.CreateZipFile(output.jsonFileName);
             runningThreads--;

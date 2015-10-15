@@ -24,7 +24,7 @@ namespace FileHandler
             }
         }
 
-        public static void SendFile(string fileName, string customerId)
+        public static void SendFile(string fileName, string customerId, string date)
         {
             FileStream fs = new FileStream(fileName, FileMode.Open, FileAccess.Read);
             byte[] data = new byte[fs.Length];
@@ -35,6 +35,7 @@ namespace FileHandler
             Dictionary<string, object> postParameters = new Dictionary<string, object>();
             postParameters.Add("FileName", fileName);
             postParameters.Add("CustomerId", customerId);
+            postParameters.Add("Date", date);
             postParameters.Add("UploadFile", new FormUpload.FileParameter(data, fileName, "application/msword"));
 
             // Create request and receive response

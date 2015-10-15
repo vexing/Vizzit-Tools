@@ -11,5 +11,6 @@ namespace SpiderCore
         public string Domain { get; set; }
         public string Id { get; set; }
         public string Startpage { get; set; }
+        public string Database { get; set; }
     }
 }

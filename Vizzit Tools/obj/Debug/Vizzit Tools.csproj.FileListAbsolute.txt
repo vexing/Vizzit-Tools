@@ -9,7 +9,6 @@ C:\Users\antehagg\Documents\GitHub\Vizzit-Tools\Vizzit Tools\bin\Debug\HtmlAgili
 C:\Users\antehagg\Documents\GitHub\Vizzit-Tools\Vizzit Tools\bin\Debug\Ionic.Zip.dll
 C:\Users\antehagg\Documents\GitHub\Vizzit-Tools\Vizzit Tools\bin\Debug\FileHandler.pdb
 C:\Users\antehagg\Documents\GitHub\Vizzit-Tools\Vizzit Tools\bin\Debug\SpiderCore.pdb
-C:\Users\antehagg\Documents\GitHub\Vizzit-Tools\Vizzit Tools\bin\Debug\Newtonsoft.Json.xml
 C:\Users\antehagg\Documents\GitHub\Vizzit-Tools\Vizzit Tools\bin\Debug\HtmlAgilityPack.pdb
 C:\Users\antehagg\Documents\GitHub\Vizzit-Tools\Vizzit Tools\bin\Debug\HtmlAgilityPack.xml
 C:\Users\antehagg\Documents\GitHub\Vizzit-Tools\Vizzit Tools\obj\Debug\Vizzit Tools.csprojResolveAssemblyReference.cache

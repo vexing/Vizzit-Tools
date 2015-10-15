@@ -10,3 +10,16 @@ E:\Spider\Vizzit-Tools\SpiderCore\bin\Release\Newtonsoft.Json.xml
 E:\Spider\Vizzit-Tools\SpiderCore\obj\Release\SpiderCore.dll
 E:\Spider\Vizzit-Tools\SpiderCore\obj\Release\SpiderCore.pdb
 E:\Spider\Vizzit-Tools\SpiderCore\obj\Release\Spider.csprojResolveAssemblyReference.cache
+C:\Users\antehagg\Documents\GitHub\Vizzit-Tools\SpiderCore\bin\Release\SpiderCore.dll
+C:\Users\antehagg\Documents\GitHub\Vizzit-Tools\SpiderCore\bin\Release\SpiderCore.pdb
+C:\Users\antehagg\Documents\GitHub\Vizzit-Tools\SpiderCore\bin\Release\FileHandler.dll
+C:\Users\antehagg\Documents\GitHub\Vizzit-Tools\SpiderCore\bin\Release\HtmlAgilityPack.dll
+C:\Users\antehagg\Documents\GitHub\Vizzit-Tools\SpiderCore\bin\Release\Ionic.Zip.dll
+C:\Users\antehagg\Documents\GitHub\Vizzit-Tools\SpiderCore\bin\Release\MySql.Data.dll
+C:\Users\antehagg\Documents\GitHub\Vizzit-Tools\SpiderCore\bin\Release\Newtonsoft.Json.dll
+C:\Users\antehagg\Documents\GitHub\Vizzit-Tools\SpiderCore\bin\Release\FileHandler.pdb
+C:\Users\antehagg\Documents\GitHub\Vizzit-Tools\SpiderCore\bin\Release\HtmlAgilityPack.pdb
+C:\Users\antehagg\Documents\GitHub\Vizzit-Tools\SpiderCore\bin\Release\HtmlAgilityPack.xml
+C:\Users\antehagg\Documents\GitHub\Vizzit-Tools\SpiderCore\obj\Release\Spider.csprojResolveAssemblyReference.cache
+C:\Users\antehagg\Documents\GitHub\Vizzit-Tools\SpiderCore\obj\Release\SpiderCore.dll
+C:\Users\antehagg\Documents\GitHub\Vizzit-Tools\SpiderCore\obj\Release\SpiderCore.pdb

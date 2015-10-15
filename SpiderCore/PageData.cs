@@ -105,7 +105,7 @@ namespace SpiderCore
                 foreach (string link in linkStrings)
                 {
                     if (visitedLinks.ContainsKey(link))
-                        if(visitedLinks[link].Status != System.Net.HttpStatusCode.OK)
+                        if(visitedLinks[link].Status != System.Net.HttpStatusCode.OK || visitedLinks[link].CustomStatus != null)
                             insertToLinks(visitedLinks[link]);
                     else
                         insertToNotVisitedLinks(link);

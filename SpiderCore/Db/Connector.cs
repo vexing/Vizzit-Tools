@@ -29,7 +29,6 @@ namespace SpiderCore.Db
 
         public List<string> Query(string query)
         {
-
             List<string> r = new List<string>();
             MySqlDataReader reader = null;
 
@@ -55,7 +54,7 @@ namespace SpiderCore.Db
                 if (reader != null)
                     reader.Close();
                 if (connection != null)
-                    connection.Close(); //close the connection
+                    connection.Close(); 
             }
 
             return r;

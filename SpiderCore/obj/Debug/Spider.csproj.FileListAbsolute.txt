@@ -28,6 +28,5 @@ E:\Spider\Vizzit-Tools\SpiderCore\bin\Debug\HtmlAgilityPack.pdb
 E:\Spider\Vizzit-Tools\SpiderCore\bin\Debug\HtmlAgilityPack.xml
 E:\Spider\Vizzit-Tools\SpiderCore\bin\Debug\Newtonsoft.Json.xml
 C:\Users\antehagg\Documents\GitHub\Vizzit-Tools\SpiderCore\bin\Debug\Newtonsoft.Json.dll
-C:\Users\antehagg\Documents\GitHub\Vizzit-Tools\SpiderCore\bin\Debug\Newtonsoft.Json.xml
 C:\Users\antehagg\Documents\GitHub\Vizzit-Tools\SpiderCore\bin\Debug\FileHandler.dll
 C:\Users\antehagg\Documents\GitHub\Vizzit-Tools\SpiderCore\bin\Debug\FileHandler.pdb

@@ -16,6 +16,8 @@ using System.Windows.Shapes;
 using FileHandler;
 using SpiderCore.Db;
 using SpiderCore.Db.Queries;
+using System.Threading;
+using System.ComponentModel;
 
 namespace Vizzit_Tools
 {
@@ -24,11 +26,21 @@ namespace Vizzit_Tools
     /// </summary>
     public partial class MainWindow : Window
     {
+        int threads;
+        List<Customer> customerList;
+        private readonly BackgroundWorker worker;
+        private bool sendFile;
+        private bool dailyCheck;
+
         public MainWindow()
         {
             InitializeComponent();
+            cancelButton.IsEnabled = false;
             ListRadioBtn.IsChecked = true;
             GuiLogger.LogAdded += new EventHandler(GuiLogger_LogAdded);
+            worker = new BackgroundWorker();
+            worker.WorkerSupportsCancellation = true;
+            worker.DoWork += worker_DoWork;
         }
 
         void GuiLogger_LogAdded(object sender, EventArgs e)
@@ -41,42 +53,60 @@ namespace Vizzit_Tools
 
         private void StartButton_Click(object sender, RoutedEventArgs e)
         {
+            if (SendFileCheckBox.IsChecked == true)
+                sendFile = true;
+            else
+                sendFile = false;
+
+            if (dailyCheckBox.IsChecked == true)
+                dailyCheck = true;
+            else
+                dailyCheck = false;
+
+            threads = Int32.Parse(coreTextBox.Text);
+            customerList = new List<Customer>();
+
+            try
+            {
+                Connector connector = new Connector();
+            }
+            catch (Exception ex)
+            {
+                DebugTextBlock.Text += ex.Message;
+            }
+
             if(ListRadioBtn.IsChecked.Value)
             {
-                List<Customer> customerList = new List<Customer>();
-
                 foreach (Customer item in CustomerLsv.Items)
+                {
+                    try
+                    {
+                        item.Database = SelectQuery.GetDatabase(item.Id)[0];
+                    }
+                    catch(Exception ex)
+                    {
+                        GuiLogger.Log(ex.Message);
+                        item.Database = null;
+                    }
                     customerList.Add(item);
-
-                int threads = Int32.Parse(coreTextBox.Text);
-
-                Initialize ini = new Initialize(threads, customerList);
-
-                DebugTextBlock.Text = "Started spider from list";
+                }
             }
-            else if(DbRadioBtn.IsChecked.Value)
+            else if (DbRadioBtn.IsChecked.Value)
             {
-                List<Customer> customerList = new List<Customer>();
-                List<string> dbList = new List<string>();
-
-                try
-                {
-                    Connector connector = new Connector();
-                    dbList = SelectQuery.GetCustomerDbList();
-                }
-                catch (Exception ex)
-                {
-                    DebugTextBlock.Text += ex.Message;
-                }
+                List<string> dbList = SelectQuery.GetCustomerDbList();                
 
                 foreach (string customerDb in dbList)
                 {
+                    if (customerDb.StartsWith("v2_rs_") || customerDb.Contains("intranet"))
+                        continue;
+
                     Customer customer = new Customer();
                     try
                     {
                         customer.Domain = createFullurl(SelectQuery.GetDomain(customerDb)[0]);
                         customer.Id = SelectQuery.GetCustomerId(customerDb)[0];
-                        customer.Startpage = SelectQuery.GetStartPage(customerDb)[0];
+                        customer.Startpage = firstPageFix(SelectQuery.GetStartPage(customerDb)[0], customer.Id);
+                        customer.Database = customerDb;
                         customerList.Add(customer);
                     }
                     catch (Exception ex)
@@ -84,15 +114,27 @@ namespace Vizzit_Tools
                         DebugTextBlock.Text += ex.Message;
                     }
                 }
-
-                int threads = Int32.Parse(coreTextBox.Text);
-                DebugTextBlock.Text = "Started spider from database";
-                Initialize ini = new Initialize(threads, customerList);
-                
             }
-            else
-                TempHomeFunc();
+
+            if (worker.IsBusy != true)
+            {
+                cancelButton.IsEnabled = true;
+                worker.RunWorkerAsync();
+            }
         }
+
+        private string firstPageFix(string url, string customerId)
+        {
+            if (customerId == "plannja.com")
+                return "/international/";
+            else
+                return url;
+        }
+
+        private void worker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            Initialize ini = new Initialize(threads, customerList, sendFile, dailyCheck);
+        }                                
 
         private string createFullurl(string url)
         {
@@ -123,8 +165,7 @@ namespace Vizzit_Tools
 
         private void AddBtn_Click(object sender, RoutedEventArgs e)
         {
-            CustomerLsv.Items.Add(new Customer { Domain = DomainTextBox.Text, Startpage = StartPageTextBox.Text, Id = CustomerIdTextBox.Text });
-            
+            CustomerLsv.Items.Add(new Customer { Domain = DomainTextBox.Text, Startpage = StartPageTextBox.Text, Id = CustomerIdTextBox.Text });            
         }
 
         private void RemoveBtn_Click(object sender, RoutedEventArgs e)
@@ -142,6 +183,20 @@ namespace Vizzit_Tools
         private void ClrBtn_Click(object sender, RoutedEventArgs e)
         {
             CustomerLsv.Items.Clear();
+        }
+
+        private void cancelButton_Click(object sender, RoutedEventArgs e)
+        {
+            // Cancel the asynchronous operation.
+            worker.CancelAsync();
+
+            // Disable the Cancel button.
+            cancelButton.IsEnabled = false;
+        }
+
+        private void quitBtn_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
         }
     }
 }

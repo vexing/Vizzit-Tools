@@ -22,3 +22,25 @@ E:\Spider\Vizzit-Tools\Vizzit Tools\obj\Release\Vizzit_Tools.Properties.Resource
 E:\Spider\Vizzit-Tools\Vizzit Tools\obj\Release\Vizzit Tools.csproj.GenerateResource.Cache
 E:\Spider\Vizzit-Tools\Vizzit Tools\obj\Release\Vizzit Tools.exe
 E:\Spider\Vizzit-Tools\Vizzit Tools\obj\Release\Vizzit Tools.pdb
+C:\Users\antehagg\Documents\GitHub\Vizzit-Tools\Vizzit Tools\bin\Release\Vizzit Tools.exe.config
+C:\Users\antehagg\Documents\GitHub\Vizzit-Tools\Vizzit Tools\bin\Release\Vizzit Tools.exe
+C:\Users\antehagg\Documents\GitHub\Vizzit-Tools\Vizzit Tools\bin\Release\Vizzit Tools.pdb
+C:\Users\antehagg\Documents\GitHub\Vizzit-Tools\Vizzit Tools\bin\Release\FileHandler.dll
+C:\Users\antehagg\Documents\GitHub\Vizzit-Tools\Vizzit Tools\bin\Release\Newtonsoft.Json.dll
+C:\Users\antehagg\Documents\GitHub\Vizzit-Tools\Vizzit Tools\bin\Release\SpiderCore.dll
+C:\Users\antehagg\Documents\GitHub\Vizzit-Tools\Vizzit Tools\bin\Release\HtmlAgilityPack.dll
+C:\Users\antehagg\Documents\GitHub\Vizzit-Tools\Vizzit Tools\bin\Release\Ionic.Zip.dll
+C:\Users\antehagg\Documents\GitHub\Vizzit-Tools\Vizzit Tools\bin\Release\FileHandler.pdb
+C:\Users\antehagg\Documents\GitHub\Vizzit-Tools\Vizzit Tools\bin\Release\SpiderCore.pdb
+C:\Users\antehagg\Documents\GitHub\Vizzit-Tools\Vizzit Tools\bin\Release\HtmlAgilityPack.pdb
+C:\Users\antehagg\Documents\GitHub\Vizzit-Tools\Vizzit Tools\bin\Release\HtmlAgilityPack.xml
+C:\Users\antehagg\Documents\GitHub\Vizzit-Tools\Vizzit Tools\obj\Release\Vizzit Tools.csprojResolveAssemblyReference.cache
+C:\Users\antehagg\Documents\GitHub\Vizzit-Tools\Vizzit Tools\obj\Release\MainWindow.baml
+C:\Users\antehagg\Documents\GitHub\Vizzit-Tools\Vizzit Tools\obj\Release\MainWindow.g.cs
+C:\Users\antehagg\Documents\GitHub\Vizzit-Tools\Vizzit Tools\obj\Release\App.g.cs
+C:\Users\antehagg\Documents\GitHub\Vizzit-Tools\Vizzit Tools\obj\Release\Vizzit Tools_MarkupCompile.cache
+C:\Users\antehagg\Documents\GitHub\Vizzit-Tools\Vizzit Tools\obj\Release\Vizzit Tools.g.resources
+C:\Users\antehagg\Documents\GitHub\Vizzit-Tools\Vizzit Tools\obj\Release\Vizzit_Tools.Properties.Resources.resources
+C:\Users\antehagg\Documents\GitHub\Vizzit-Tools\Vizzit Tools\obj\Release\Vizzit Tools.csproj.GenerateResource.Cache
+C:\Users\antehagg\Documents\GitHub\Vizzit-Tools\Vizzit Tools\obj\Release\Vizzit Tools.exe
+C:\Users\antehagg\Documents\GitHub\Vizzit-Tools\Vizzit Tools\obj\Release\Vizzit Tools.pdb

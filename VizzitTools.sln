@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+VisualStudioVersion = 12.0.40629.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vizzit Tools", "Vizzit Tools\Vizzit Tools.csproj", "{8DF1EB3D-D926-4070-89A7-84884B0B9DDE}"
 EndProject
@@ -12,21 +12,35 @@ EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
 		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{8DF1EB3D-D926-4070-89A7-84884B0B9DDE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{8DF1EB3D-D926-4070-89A7-84884B0B9DDE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8DF1EB3D-D926-4070-89A7-84884B0B9DDE}.Debug|x64.ActiveCfg = Debug|x64
+		{8DF1EB3D-D926-4070-89A7-84884B0B9DDE}.Debug|x64.Build.0 = Debug|x64
 		{8DF1EB3D-D926-4070-89A7-84884B0B9DDE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8DF1EB3D-D926-4070-89A7-84884B0B9DDE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8DF1EB3D-D926-4070-89A7-84884B0B9DDE}.Release|x64.ActiveCfg = Release|x64
+		{8DF1EB3D-D926-4070-89A7-84884B0B9DDE}.Release|x64.Build.0 = Release|x64
 		{1FFDFF9A-D0A6-4165-B69C-833A5CEA5BBF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1FFDFF9A-D0A6-4165-B69C-833A5CEA5BBF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1FFDFF9A-D0A6-4165-B69C-833A5CEA5BBF}.Debug|x64.ActiveCfg = Debug|x64
+		{1FFDFF9A-D0A6-4165-B69C-833A5CEA5BBF}.Debug|x64.Build.0 = Debug|x64
 		{1FFDFF9A-D0A6-4165-B69C-833A5CEA5BBF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1FFDFF9A-D0A6-4165-B69C-833A5CEA5BBF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1FFDFF9A-D0A6-4165-B69C-833A5CEA5BBF}.Release|x64.ActiveCfg = Release|x64
+		{1FFDFF9A-D0A6-4165-B69C-833A5CEA5BBF}.Release|x64.Build.0 = Release|x64
 		{BC600840-42DC-45FD-8827-D510074A1C17}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{BC600840-42DC-45FD-8827-D510074A1C17}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC600840-42DC-45FD-8827-D510074A1C17}.Debug|x64.ActiveCfg = Debug|x64
+		{BC600840-42DC-45FD-8827-D510074A1C17}.Debug|x64.Build.0 = Debug|x64
 		{BC600840-42DC-45FD-8827-D510074A1C17}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BC600840-42DC-45FD-8827-D510074A1C17}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BC600840-42DC-45FD-8827-D510074A1C17}.Release|x64.ActiveCfg = Release|x64
+		{BC600840-42DC-45FD-8827-D510074A1C17}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

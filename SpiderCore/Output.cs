@@ -10,6 +10,8 @@ using Newtonsoft.Json.Converters;
 using Spider;
 using FileHandler;
 using System.Net;
+using System.Diagnostics;
+using System.Threading;
 
 namespace SpiderCore
 {
@@ -18,18 +20,15 @@ namespace SpiderCore
     {
         private List<PageData> pageDataList;
         private Meta metaData;
-        private Dictionary<string, InternalLink> visitedLinks;
         public string jsonFileName;
 
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="pageDataList">List on all PageData objects</param>
-        /// <param name="visitedLinks">list of all InternalLinks</param>
-        public Output(List<PageData> pageDataList, Dictionary<string, InternalLink> visitedLinks)
+        public Output(List<PageData> pageDataList)
         {
             this.pageDataList = pageDataList;
-            this.visitedLinks = visitedLinks;
             createJson(1);
         }
 
@@ -37,11 +36,9 @@ namespace SpiderCore
         /// Constructor
         /// </summary>
         /// <param name="pageDataList">List on all PageData objects</param>
-        /// <param name="visitedLinks">list of all InternalLinks</param>
-        public Output(List<PageData> pageDataList, Dictionary<string, InternalLink> visitedLinks, int custNo)
+        public Output(List<PageData> pageDataList, int custNo)
         {            
             this.pageDataList = pageDataList;
-            this.visitedLinks = visitedLinks;
             createJson(custNo);
         }
 
@@ -49,13 +46,14 @@ namespace SpiderCore
         /// Constructor
         /// </summary>
         /// <param name="pageDataList">List on all PageData objects</param>
-        /// <param name="visitedLinks">list of all InternalLinks</param>
         /// <param name="customer_id">vizzit customer_id</param>
         /// <param name="metaData">meta data object</param>
-        public Output(List<PageData> pageDataList, Dictionary<string, InternalLink> visitedLinks, string customer_id, Meta metaData)
+        public Output(ref List<PageData> pageDataList, string customer_id, Meta metaData, bool sendFile)
         {
+            Process currentProc = Process.GetCurrentProcess();
+            GuiLogger.Log("Using " + currentProc.PrivateMemorySize64.ToString() + " at start of json");
+
             this.metaData = metaData;
-            this.visitedLinks = visitedLinks;
 
             JsonSerializer serializer = new JsonSerializer();
             serializer.Converters.Add(new JavaScriptDateTimeConverter());
@@ -80,23 +78,30 @@ namespace SpiderCore
                 }
 
                 string zipFile = StringCompressor.CreateZipFile(jsonFileName, metaFileName);
-                FileHandler.FileSend.SendFile(zipFile, customer_id);
+                if (sendFile)
+                    FileHandler.FileSend.SendFile(zipFile, customer_id, date.ToString("yyyy-MM-dd"));
+
+                currentProc = Process.GetCurrentProcess();
+                GuiLogger.Log("Using " + currentProc.PrivateMemorySize64.ToString() + " at end try in json");
             }
             catch(Exception ex)
             {
                 GuiLogger.Log(ex.Message);
             }
+            pageDataList.Clear();
+
+            Thread.Sleep(4000);
+
+            currentProc = Process.GetCurrentProcess();
+            GuiLogger.Log("Using " + currentProc.PrivateMemorySize64.ToString() + " at end of json");
         }
 
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="pageDataList">List on all PageData objects</param>
-        /// <param name="visitedLinks">list of all InternalLinks</param>
-        public Output(List<PageData> pageDataList, Dictionary<string, InternalLink> visitedLinks, string customer_id)
+        public Output(List<PageData> pageDataList, string customer_id, bool sendFile)
         {
-            this.visitedLinks = visitedLinks;
-
             JsonSerializer serializer = new JsonSerializer();
             serializer.Converters.Add(new JavaScriptDateTimeConverter());
             serializer.NullValueHandling = NullValueHandling.Ignore;
@@ -111,7 +116,8 @@ namespace SpiderCore
             }
 
             string zipFile = StringCompressor.CreateZipFile(jsonFileName);
-            FileHandler.FileSend.SendFile(zipFile, customer_id);
+            if(sendFile)
+                FileHandler.FileSend.SendFile(zipFile, customer_id, date.ToString("yyyy-MM-dd"));
         }
 
         /// <summary>
