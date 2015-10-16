@@ -334,7 +334,7 @@ namespace SpiderCore
                 if (parseTime > new TimeSpan(0, 0, 10))
                     newLog.logLine("Parse took " + parseTime.Seconds +" seconds ", pageData.Url);
 
-                if(unvistedLinks.Count <= 0 && !structureUpdateDone)
+                if(unvistedLinks.Count <= 0 && !structureUpdateDone && visitedLinks.Count > 2)
                     compareStructure();
 
                 if (unvistedLinks.Count == visitedLinks.Count)

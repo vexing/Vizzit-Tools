@@ -143,10 +143,10 @@ namespace SpiderCore
                 StartSpider(++custNo, customerList[crawlCounter].Startpage, customerList[crawlCounter].Id, sendFile, dailyCheck);
             runningThreads--;
 
+            output.Dispose();
             GC.Collect();
             Process currentProc = Process.GetCurrentProcess();
-            GuiLogger.Log("Using " + currentProc.PrivateMemorySize64.ToString() + " when all is done");
-           
+            GuiLogger.Log("Using " + currentProc.PrivateMemorySize64.ToString() + " when all is done");     
         }
 
         private void startThreadList()
@@ -162,6 +162,9 @@ namespace SpiderCore
             Output output = spider.StartSpider(++custNo, "/");
             StringCompressor.CreateZipFile(output.jsonFileName);
             runningThreads--;
+
+            output.Dispose();
+            GC.Collect();
         }
 
         private void startThread()

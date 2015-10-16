@@ -97,8 +97,17 @@ namespace Vizzit_Tools
 
                 foreach (string customerDb in dbList)
                 {
-                    if (customerDb.StartsWith("v2_rs_") || customerDb.Contains("intranet"))
+                    try
+                    {
+                        string shouldSpider = SelectQuery.GetShouldSpider(customerDb)[0];
+                        if (customerDb.StartsWith("v2_rs_") || customerDb.Contains("intranet") || shouldSpider.Equals("False"))
+                            continue;
+                    }
+                    catch(Exception ex)
+                    {
+                        GuiLogger.Log(ex.Message);
                         continue;
+                    }
 
                     Customer customer = new Customer();
                     try

@@ -27,6 +27,18 @@ namespace SpiderCore.Db.Queries
             return con.Query(sqlQuery);
         }
 
+        public static List<string> GetShouldSpider(string db)
+        {
+            Connector con = new Connector();
+            string sqlQuery = String.Format(@"
+               SELECT 
+                    spider
+                FROM
+                    {0}.settings", db);
+
+            return con.Query(sqlQuery);
+        }
+
         public static List<string> GetStartPage(string db)
         {
             Connector con = new Connector();

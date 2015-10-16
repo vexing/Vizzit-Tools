@@ -12,6 +12,7 @@ using FileHandler;
 using System.Net;
 using System.Diagnostics;
 using System.Threading;
+using System.Runtime.InteropServices;
 
 namespace SpiderCore
 {
@@ -21,6 +22,8 @@ namespace SpiderCore
         private List<PageData> pageDataList;
         private Meta metaData;
         public string jsonFileName;
+        bool disposed = false;
+        SafeHandle handle = new Microsoft.Win32.SafeHandles.SafeFileHandle(IntPtr.Zero, true);
 
         /// <summary>
         /// Constructor
@@ -118,6 +121,30 @@ namespace SpiderCore
             string zipFile = StringCompressor.CreateZipFile(jsonFileName);
             if(sendFile)
                 FileHandler.FileSend.SendFile(zipFile, customer_id, date.ToString("yyyy-MM-dd"));
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        // Protected implementation of Dispose pattern.
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposed)
+                return;
+
+            if (disposing)
+            {
+                handle.Dispose();
+                // Free any other managed objects here.
+                //
+            }
+
+            // Free any unmanaged objects here.
+            //
+            disposed = true;
         }
 
         /// <summary>
