@@ -8,7 +8,9 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Reflection;
 using System.Runtime.Remoting.Messaging;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -24,6 +26,7 @@ namespace SpiderCore
         private List<string> unvistedLinks;
         private List<string> dailyCheckPages;
         private Dictionary<string, InternalLink> visitedLinks;
+        private Dictionary<string, int> visitedUriCount;
         private List<PageData> pageDataList;
         private Output output;
         private Log newLog;
@@ -45,6 +48,7 @@ namespace SpiderCore
             this.database = database;
             unvistedLinks = new List<string>();
             visitedLinks = new Dictionary<string, InternalLink>();
+            visitedUriCount = new Dictionary<string, int>();
             pageDataList = new List<PageData>();
             newLog = new Log(customer_id);
         }
@@ -58,6 +62,7 @@ namespace SpiderCore
             meta = new Meta(customer_id);
             unvistedLinks = new List<string>();
             visitedLinks = new Dictionary<string, InternalLink>();
+            visitedUriCount = new Dictionary<string, int>();
             pageDataList = new List<PageData>();
             newLog = new Log(customer_id);
         }
@@ -125,6 +130,8 @@ namespace SpiderCore
         {
             Process currentProc = Process.GetCurrentProcess();
             GuiLogger.Log("Using " + currentProc.PrivateMemorySize64.ToString() + " at begining of crawlSite");
+            //Dirty fix for region skåne....We need that firstPage back:/
+            string firstPage = unvistedLinks.First<string>().Remove(0, domain.Count());
 
             newLog.logLine("Starting ", Core.domain);
             GuiLogger.Log(String.Format("Crawling {0}", Core.domain));
@@ -149,8 +156,8 @@ namespace SpiderCore
 
                 //Visit the first link in the list
                 bool relative = relativeCheck(unvistedLinks.First<string>());
-                if(!relative)
-                    ownDomain = ownDomainCheck(unvistedLinks.First<string>());
+                if(!relative || domain.StartsWith(@"http://www.skane.se"))
+                    ownDomain = ownDomainCheck(unvistedLinks.First<string>(), firstPage);
 
                 if (unvistedLinks.First<string>().Contains("javascript") ||
                     unvistedLinks.First<string>().StartsWith("#"))
@@ -171,6 +178,15 @@ namespace SpiderCore
                 }
                 //Remove googletranslate, umea for example have this
                 if (unvistedLinks.First<string>().StartsWith(@"//translate.google.com/translate?sl=sv"))
+                {
+                    unvistedLinks.RemoveAt(0);
+                    if (unvistedLinks.Count <= 0 && !structureUpdateDone)
+                        compareStructure();
+                    continue;
+                }
+
+                //Remove siteseeker pages, might be other variation of siteseeker pages
+                if (unvistedLinks.First<string>().Contains("h.siteseeker"))
                 {
                     unvistedLinks.RemoveAt(0);
                     if (unvistedLinks.Count <= 0 && !structureUpdateDone)
@@ -199,12 +215,7 @@ namespace SpiderCore
                 else
                     currentPage = unvistedLinks.First<string>();
 
-                PageData pageData;
-                //If it isn't friendly we need to extract the id
-                if(unvistedLinks.First<string>().Contains("id="))
-                    pageData = new PageData(unvistedLinks.First<string>(), "no id");
-                else
-                    pageData = new PageData(unvistedLinks.First<string>());
+                PageData pageData = new PageData(unvistedLinks.First<string>());
 
                 bool linkRelative = relativeCheck(pageData.Url);
                 //bool responseOk = pageResponseCheck(currentPage);
@@ -216,6 +227,20 @@ namespace SpiderCore
                 {
                     isFile = true;
                     currentPage = currentPage.Remove(currentPage.Length - 1);
+                }
+
+                //For now, takes forever...
+                if (domain.Contains("www.sll.se") && currentPage.ToLower().Contains("/kalender/"))
+                {
+                    unvistedLinks.RemoveAt(0);
+                    continue;
+                }
+
+                //Slu had problems with this link
+                if(domain.Contains("www.slu.se") && currentPage.ToLower().Contains("app.readspeaker.com"))
+                {
+                    unvistedLinks.RemoveAt(0);
+                    continue;
                 }
 
                 //Try to visit the page and extract links
@@ -234,6 +259,18 @@ namespace SpiderCore
                         webRequest.Timeout = 10000;
                     else
                         webRequest.Timeout = 5000;
+
+                    if (visitedUriCount.ContainsKey(pageUri.LocalPath))
+                        visitedUriCount[pageUri.AbsolutePath]++;
+                    else
+                        visitedUriCount.Add(pageUri.AbsolutePath, 1);
+
+                    if(visitedUriCount[pageUri.AbsolutePath] >= 100 )
+                    {
+                        newLog.logLine(unvistedLinks[0], " ,reached 100 visits. Blocking that page");
+                        unvistedLinks.RemoveAt(0);
+                        continue;
+                    }
 
                     using (webResponse = (HttpWebResponse)webRequest.GetResponse())
                     {
@@ -258,40 +295,45 @@ namespace SpiderCore
                         }
                         else
                         {
-                            Stream stream = webResponse.GetResponseStream();
-                            string responseString = ((TextReader)new StreamReader(stream)).ReadToEnd();
-
-                            doc.LoadHtml(responseString);
-                            linkData = new InternalLink(pageData.Url, webResponse.StatusCode, linkRelative);
-                            visitedLinks.Add(pageData.Url, linkData);
-
-
-                            //Extract data from currentPage if status 200
-                            if (webResponse.StatusCode == HttpStatusCode.OK && ownDomain)
+                            using (Stream stream = webResponse.GetResponseStream())
                             {
-                                var extractor = new Extractor(doc);
-                                Dictionary<string, string> metaList = extractor.GetMeta();
-                                string title = extractor.GetTitle();
-                                List<string> hrefTags = extractor.ExtractAllAHrefTags();
-
-                                //Iterate the links
-                                foreach (string hrefTag in hrefTags)
+                                using (StreamReader sr = new StreamReader(stream))
                                 {
-                                    //Insert the link to the correct List
-                                    if (!pageData.checkIfLinkExistInLinkString(hrefTag))
-                                    {
-                                        if (mailLinkCheck(hrefTag))
-                                            pageData.insertMailLink(hrefTag);
-                                        else
-                                            if (!hrefTag.StartsWith("#"))
-                                                pageData.insertLink(hrefTag);
-                                    }
+                                    string responseString = ((TextReader)sr).ReadToEnd();
+
+                                    doc.LoadHtml(responseString);
+                                    linkData = new InternalLink(pageData.Url, webResponse.StatusCode, linkRelative);
+                                    visitedLinks.Add(pageData.Url, linkData);
+                                    sr.Close();
                                 }
-                                //Insert the whole range of new links
-                                insertNewLinks(hrefTags);
+
+                                //Extract data from currentPage if status 200
+                                if (webResponse.StatusCode == HttpStatusCode.OK && ownDomain)
+                                {
+                                    var extractor = new Extractor(doc);
+                                    Dictionary<string, string> metaList = extractor.GetMeta();
+                                    string title = extractor.GetTitle();
+                                    List<string> hrefTags = extractor.ExtractAllAHrefTags();
+
+                                    //Iterate the links
+                                    foreach (string hrefTag in hrefTags)
+                                    {
+                                        //Insert the link to the correct List
+                                        if (!pageData.checkIfLinkExistInLinkString(hrefTag))
+                                        {
+                                            if (mailLinkCheck(hrefTag))
+                                                pageData.insertMailLink(hrefTag);
+                                            else
+                                                if (!hrefTag.StartsWith("#"))
+                                                    pageData.insertLink(hrefTag);
+                                        }
+                                    }
+                                    //Insert the whole range of new links
+                                    insertNewLinks(ref hrefTags);
+                                }
+                                meta.addInternalLink();
+                                stream.Close();
                             }
-                            meta.addInternalLink();
-                            stream.Close();
                         }
                     }
                     //Add the finished page
@@ -387,6 +429,9 @@ namespace SpiderCore
 
         private void crawlSiteDaily()
         {
+            //Dirty fix for region skåne....We need that firstPage back:/
+            string firstPage = unvistedLinks.First<string>().Remove(0, domain.Count());
+
             try
             {
                 Connector connector = new Connector();
@@ -421,7 +466,7 @@ namespace SpiderCore
                 //Visit the first link in the list
                 bool relative = relativeCheck(unvistedLinks.First<string>());
                 if (!relative)
-                    ownDomain = ownDomainCheck(unvistedLinks.First<string>());
+                    ownDomain = ownDomainCheck(unvistedLinks.First<string>(), firstPage);
 
                 if (unvistedLinks.First<string>().Contains("javascript") ||
                     unvistedLinks.First<string>().StartsWith("#"))
@@ -556,7 +601,9 @@ namespace SpiderCore
                                     }
                                 }
                                 if(dailyCheckPages.Contains(pageData.Url))
-                                    insertNewLinks(hrefTags);
+                                    insertNewLinks(ref hrefTags);
+
+                                hrefTags.Clear();
                             }
                             meta.addInternalLink();
                             stream.Close();
@@ -737,6 +784,9 @@ namespace SpiderCore
         {
             uri = uri.Trim();
             uri = HttpUtility.UrlDecode(uri);
+            uri = uri.Replace("&amp;", "&");
+            if(domain.Contains("www.sll.se"))
+                uri = uri.Replace("amp;", "");
             uri = uri.Replace(" ", "+");
             return uri;
         }
@@ -793,9 +843,12 @@ namespace SpiderCore
         /// </summary>
         /// <param name="url"></param>
         /// <returns></returns>
-        private bool ownDomainCheck(string url)
+        private bool ownDomainCheck(string url, string firstPage)
         {
-            if (url.StartsWith(domain) || url.StartsWith(@"http://" + domain) || url.StartsWith(@"https://" + domain) || url.StartsWith(@"\"))
+            if ((domain.StartsWith(@"http://www.skane.se") || domain.StartsWith("www.skane.se")) && url.Contains(firstPage))
+                return true;
+            else if ((url.StartsWith(domain) || url.StartsWith(@"http://" + domain) || url.StartsWith(@"https://" + domain) || url.StartsWith(@"\")) && 
+                (!url.StartsWith(@"http://www.skane.se") && !url.StartsWith("www.skane.se")))
                 return true;
             else
                 return false;
@@ -833,7 +886,7 @@ namespace SpiderCore
         /// Inserts new unvisted links
         /// </summary>
         /// <param name="hrefTags">List of new links we want to check</param>
-        private void insertNewLinks(List<string> hrefTags)
+        private void insertNewLinks(ref List<string> hrefTags)
         {
             bool resetI = false;
 
@@ -855,14 +908,7 @@ namespace SpiderCore
                 }
             }
 
-            var modifiedList = hrefTags;
-
-            //Check if the link allready is in the list
-            IEnumerable<string> differenceQuery = modifiedList.Except(unvistedLinks);
-            //Check if the link allready was visited
-            differenceQuery = differenceQuery.Except(visitedLinks.Keys);
-
-            unvistedLinks.AddRange(differenceQuery);
+            unvistedLinks.AddRange(new List<string>(hrefTags.Except(unvistedLinks).Except(visitedLinks.Keys)));
         }
     }
 }

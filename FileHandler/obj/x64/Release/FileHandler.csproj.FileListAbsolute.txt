@@ -1,0 +1,11 @@
+C:\Users\antehagg\Documents\GitHub\Vizzit-Tools\FileHandler\bin\x64\Release\FileHandler.dll
+C:\Users\antehagg\Documents\GitHub\Vizzit-Tools\FileHandler\bin\x64\Release\FileHandler.pdb
+C:\Users\antehagg\Documents\GitHub\Vizzit-Tools\FileHandler\bin\x64\Release\Ionic.Zip.dll
+C:\Users\antehagg\Documents\GitHub\Vizzit-Tools\FileHandler\obj\x64\Release\FileHandler.dll
+C:\Users\antehagg\Documents\GitHub\Vizzit-Tools\FileHandler\obj\x64\Release\FileHandler.pdb
+C:\Users\antehagg\Documents\Vizzit-Tools\FileHandler\bin\x64\Release\FileHandler.dll
+C:\Users\antehagg\Documents\Vizzit-Tools\FileHandler\bin\x64\Release\FileHandler.pdb
+C:\Users\antehagg\Documents\Vizzit-Tools\FileHandler\bin\x64\Release\Ionic.Zip.dll
+C:\Users\antehagg\Documents\Vizzit-Tools\FileHandler\obj\x64\Release\FileHandler.dll
+C:\Users\antehagg\Documents\Vizzit-Tools\FileHandler\obj\x64\Release\FileHandler.pdb
+C:\Users\antehagg\Documents\Vizzit-Tools\FileHandler\obj\x64\Release\FileHandler.csprojResolveAssemblyReference.cache

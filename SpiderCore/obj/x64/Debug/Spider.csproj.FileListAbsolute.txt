@@ -1,0 +1,13 @@
+C:\Users\antehagg\Documents\Vizzit-Tools\SpiderCore\bin\x64\Debug\SpiderCore.dll
+C:\Users\antehagg\Documents\Vizzit-Tools\SpiderCore\bin\x64\Debug\SpiderCore.pdb
+C:\Users\antehagg\Documents\Vizzit-Tools\SpiderCore\bin\x64\Debug\FileHandler.dll
+C:\Users\antehagg\Documents\Vizzit-Tools\SpiderCore\bin\x64\Debug\HtmlAgilityPack.dll
+C:\Users\antehagg\Documents\Vizzit-Tools\SpiderCore\bin\x64\Debug\Ionic.Zip.dll
+C:\Users\antehagg\Documents\Vizzit-Tools\SpiderCore\bin\x64\Debug\MySql.Data.dll
+C:\Users\antehagg\Documents\Vizzit-Tools\SpiderCore\bin\x64\Debug\Newtonsoft.Json.dll
+C:\Users\antehagg\Documents\Vizzit-Tools\SpiderCore\bin\x64\Debug\FileHandler.pdb
+C:\Users\antehagg\Documents\Vizzit-Tools\SpiderCore\bin\x64\Debug\HtmlAgilityPack.pdb
+C:\Users\antehagg\Documents\Vizzit-Tools\SpiderCore\bin\x64\Debug\HtmlAgilityPack.xml
+C:\Users\antehagg\Documents\Vizzit-Tools\SpiderCore\obj\x64\Debug\Spider.csprojResolveAssemblyReference.cache
+C:\Users\antehagg\Documents\Vizzit-Tools\SpiderCore\obj\x64\Debug\SpiderCore.dll
+C:\Users\antehagg\Documents\Vizzit-Tools\SpiderCore\obj\x64\Debug\SpiderCore.pdb

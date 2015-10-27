@@ -150,7 +150,7 @@ namespace Vizzit_Tools
             if (url.EndsWith(@"/"))
                 url = url.Remove(url.Length - 1);
 
-            if (!url.StartsWith(@"http://") || !url.StartsWith(@"https://"))
+            if (!url.StartsWith(@"http://") && !url.StartsWith(@"https://"))
                 url = @"http://" + url;
             return url;
         }

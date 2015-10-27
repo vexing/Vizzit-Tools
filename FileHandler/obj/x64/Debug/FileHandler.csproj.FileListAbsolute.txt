@@ -1,0 +1,5 @@
+C:\Users\antehagg\Documents\Vizzit-Tools\FileHandler\bin\x64\Debug\FileHandler.dll
+C:\Users\antehagg\Documents\Vizzit-Tools\FileHandler\bin\x64\Debug\FileHandler.pdb
+C:\Users\antehagg\Documents\Vizzit-Tools\FileHandler\bin\x64\Debug\Ionic.Zip.dll
+C:\Users\antehagg\Documents\Vizzit-Tools\FileHandler\obj\x64\Debug\FileHandler.dll
+C:\Users\antehagg\Documents\Vizzit-Tools\FileHandler\obj\x64\Debug\FileHandler.pdb

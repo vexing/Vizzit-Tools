@@ -1,0 +1,22 @@
+C:\Users\antehagg\Documents\Vizzit-Tools\Vizzit Tools\bin\x64\Debug\Vizzit Tools.exe.config
+C:\Users\antehagg\Documents\Vizzit-Tools\Vizzit Tools\bin\x64\Debug\Vizzit Tools.exe
+C:\Users\antehagg\Documents\Vizzit-Tools\Vizzit Tools\bin\x64\Debug\Vizzit Tools.pdb
+C:\Users\antehagg\Documents\Vizzit-Tools\Vizzit Tools\bin\x64\Debug\FileHandler.dll
+C:\Users\antehagg\Documents\Vizzit-Tools\Vizzit Tools\bin\x64\Debug\Newtonsoft.Json.dll
+C:\Users\antehagg\Documents\Vizzit-Tools\Vizzit Tools\bin\x64\Debug\SpiderCore.dll
+C:\Users\antehagg\Documents\Vizzit-Tools\Vizzit Tools\bin\x64\Debug\HtmlAgilityPack.dll
+C:\Users\antehagg\Documents\Vizzit-Tools\Vizzit Tools\bin\x64\Debug\Ionic.Zip.dll
+C:\Users\antehagg\Documents\Vizzit-Tools\Vizzit Tools\bin\x64\Debug\FileHandler.pdb
+C:\Users\antehagg\Documents\Vizzit-Tools\Vizzit Tools\bin\x64\Debug\SpiderCore.pdb
+C:\Users\antehagg\Documents\Vizzit-Tools\Vizzit Tools\bin\x64\Debug\HtmlAgilityPack.pdb
+C:\Users\antehagg\Documents\Vizzit-Tools\Vizzit Tools\bin\x64\Debug\HtmlAgilityPack.xml
+C:\Users\antehagg\Documents\Vizzit-Tools\Vizzit Tools\obj\x64\Debug\Vizzit Tools.csprojResolveAssemblyReference.cache
+C:\Users\antehagg\Documents\Vizzit-Tools\Vizzit Tools\obj\x64\Debug\MainWindow.baml
+C:\Users\antehagg\Documents\Vizzit-Tools\Vizzit Tools\obj\x64\Debug\MainWindow.g.cs
+C:\Users\antehagg\Documents\Vizzit-Tools\Vizzit Tools\obj\x64\Debug\App.g.cs
+C:\Users\antehagg\Documents\Vizzit-Tools\Vizzit Tools\obj\x64\Debug\Vizzit Tools_MarkupCompile.cache
+C:\Users\antehagg\Documents\Vizzit-Tools\Vizzit Tools\obj\x64\Debug\Vizzit Tools.g.resources
+C:\Users\antehagg\Documents\Vizzit-Tools\Vizzit Tools\obj\x64\Debug\Vizzit_Tools.Properties.Resources.resources
+C:\Users\antehagg\Documents\Vizzit-Tools\Vizzit Tools\obj\x64\Debug\Vizzit Tools.csproj.GenerateResource.Cache
+C:\Users\antehagg\Documents\Vizzit-Tools\Vizzit Tools\obj\x64\Debug\Vizzit Tools.exe
+C:\Users\antehagg\Documents\Vizzit-Tools\Vizzit Tools\obj\x64\Debug\Vizzit Tools.pdb

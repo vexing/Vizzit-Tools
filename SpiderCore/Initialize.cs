@@ -112,28 +112,64 @@ namespace SpiderCore
             this.runningThreads = 0;
             this.counter = 0;
             bool newlyStarted = false;
+            bool threadPool = false;
 
             Process currentProc = Process.GetCurrentProcess();
             GuiLogger.Log("Using " + currentProc.PrivateMemorySize64.ToString() + " before we start");
 
-            while (customersToParse.Count > counter)
-                if (runningThreads < threadMaxCount)
-                {
-                    if (!newlyStarted)
+            if (threadPool)
+            {
+                while (customersToParse.Count > counter)
+                    if (runningThreads < threadMaxCount)
                     {
-                        newlyStarted = true;
-                        counter++;
-                        runningThreads++;
-                        startThreadList();
+                        if (!newlyStarted)
+                        {
+                            newlyStarted = true;
+                            counter++;
+                            runningThreads++;
+                            ThreadPool.SetMaxThreads(1, 1);
+                            ThreadPool.QueueUserWorkItem(new WaitCallback(ThreadProc));                            
+                        }
+                        else
+                        {
+                            Thread.Sleep(2000);
+                            newlyStarted = false;
+                        }
                     }
                     else
-                    {
                         Thread.Sleep(2000);
-                        newlyStarted = false;
+            }
+            else
+            {
+                while (customersToParse.Count > counter)
+                    if (runningThreads < threadMaxCount)
+                    {
+                        if (!newlyStarted)
+                        {
+                            newlyStarted = true;
+                            counter++;
+                            runningThreads++;
+                            startThreadList();
+                        }
+                        else
+                        {
+                            Thread.Sleep(2000);
+                            newlyStarted = false;
+                        }
                     }
-                }
-                else
-                    Thread.Sleep(2000);
+                    else
+                        Thread.Sleep(2000);
+            }
+        }
+
+        private void ThreadProc(object stateInfo)
+        {
+            Output output = new Core(customerList[++crawlCounter].Domain, customerList[crawlCounter].Id, customerList[crawlCounter].Database).
+                StartSpider(++custNo, customerList[crawlCounter].Startpage, customerList[crawlCounter].Id, sendFile, dailyCheck);
+            runningThreads--;
+
+            Process currentProc = Process.GetCurrentProcess();
+            GuiLogger.Log("Using " + currentProc.PrivateMemorySize64.ToString() + " when all is done"); 
         }
 
         private void startCrawlList()

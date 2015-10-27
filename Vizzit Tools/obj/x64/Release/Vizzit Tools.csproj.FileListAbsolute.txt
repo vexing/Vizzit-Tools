@@ -1,0 +1,22 @@
+C:\Users\antehagg\Documents\Vizzit-Tools\Vizzit Tools\bin\x64\Release\Vizzit Tools.exe.config
+C:\Users\antehagg\Documents\Vizzit-Tools\Vizzit Tools\obj\x64\Release\Vizzit Tools.exe
+C:\Users\antehagg\Documents\Vizzit-Tools\Vizzit Tools\obj\x64\Release\Vizzit Tools.pdb
+C:\Users\antehagg\Documents\Vizzit-Tools\Vizzit Tools\bin\x64\Release\Vizzit Tools.exe
+C:\Users\antehagg\Documents\Vizzit-Tools\Vizzit Tools\bin\x64\Release\Vizzit Tools.pdb
+C:\Users\antehagg\Documents\Vizzit-Tools\Vizzit Tools\bin\x64\Release\FileHandler.dll
+C:\Users\antehagg\Documents\Vizzit-Tools\Vizzit Tools\bin\x64\Release\Newtonsoft.Json.dll
+C:\Users\antehagg\Documents\Vizzit-Tools\Vizzit Tools\bin\x64\Release\SpiderCore.dll
+C:\Users\antehagg\Documents\Vizzit-Tools\Vizzit Tools\bin\x64\Release\HtmlAgilityPack.dll
+C:\Users\antehagg\Documents\Vizzit-Tools\Vizzit Tools\bin\x64\Release\Ionic.Zip.dll
+C:\Users\antehagg\Documents\Vizzit-Tools\Vizzit Tools\bin\x64\Release\FileHandler.pdb
+C:\Users\antehagg\Documents\Vizzit-Tools\Vizzit Tools\bin\x64\Release\SpiderCore.pdb
+C:\Users\antehagg\Documents\Vizzit-Tools\Vizzit Tools\bin\x64\Release\HtmlAgilityPack.pdb
+C:\Users\antehagg\Documents\Vizzit-Tools\Vizzit Tools\bin\x64\Release\HtmlAgilityPack.xml
+C:\Users\antehagg\Documents\Vizzit-Tools\Vizzit Tools\obj\x64\Release\Vizzit Tools.csprojResolveAssemblyReference.cache
+C:\Users\antehagg\Documents\Vizzit-Tools\Vizzit Tools\obj\x64\Release\MainWindow.baml
+C:\Users\antehagg\Documents\Vizzit-Tools\Vizzit Tools\obj\x64\Release\MainWindow.g.cs
+C:\Users\antehagg\Documents\Vizzit-Tools\Vizzit Tools\obj\x64\Release\App.g.cs
+C:\Users\antehagg\Documents\Vizzit-Tools\Vizzit Tools\obj\x64\Release\Vizzit Tools_MarkupCompile.cache
+C:\Users\antehagg\Documents\Vizzit-Tools\Vizzit Tools\obj\x64\Release\Vizzit Tools.g.resources
+C:\Users\antehagg\Documents\Vizzit-Tools\Vizzit Tools\obj\x64\Release\Vizzit_Tools.Properties.Resources.resources
+C:\Users\antehagg\Documents\Vizzit-Tools\Vizzit Tools\obj\x64\Release\Vizzit Tools.csproj.GenerateResource.Cache

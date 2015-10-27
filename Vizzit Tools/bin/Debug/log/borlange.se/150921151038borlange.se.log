@@ -1,0 +1,8 @@
+15:10:38 den 21 september 2015: Starting  http://www.borlange.se
+15:11:02 den 21 september 2015: Parse took over 8 seconds  /templates/BlgSitemap____6606.aspx
+15:17:53 den 21 september 2015: NullReferenceException Object reference not set to an instance of an object. /templates/BlgRSS____72428.aspx
+15:22:41 den 21 september 2015: NullReferenceException Object reference not set to an instance of an object. /templates/BlgNewsYear____61038.aspx
+15:26:16 den 21 september 2015: NullReferenceException Object reference not set to an instance of an object. /templates/BlgNewsYear____10632.aspx
+15:30:24 den 21 september 2015: Parse took over 40 seconds  http://www.borlange.com
+15:32:50 den 21 september 2015: Parse took over 40 seconds  http://www.borlange.se/dokument/blanketter/överförmyndare%20i%20samverkan/blanketter/Intresseanmälan.pdf
+15:33:02 den 21 september 2015: Parse took over 11 seconds  http://www.borlange.se/ois
