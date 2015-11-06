@@ -10,6 +10,7 @@ using SpiderCore;
 
 namespace Spider
 {
+    // TODO: Should be moved to FileHandler?    
     public static class StringCompressor
     {
         /// <summary>
@@ -73,6 +74,11 @@ namespace Spider
             return zipFile;
         }
 
+        /// <summary>
+        /// Compress to file
+        /// </summary>
+        /// <param name="jsonFileName"></param>
+        /// <returns></returns>
         public static string CreateZipFile(string jsonFileName)
         {
             using (ZipFile zip = new ZipFile())
@@ -84,14 +90,20 @@ namespace Spider
             return String.Format("{0}.zip", @jsonFileName);
         }
 
+        /// <summary>
+        /// Compress to file
+        /// </summary>
+        /// <param name="jsonFileName"></param>
+        /// <param name="metaFileName"></param>
+        /// <returns></returns>
         public static string CreateZipFile(string jsonFileName, string metaFileName)
         {
             try
             {
                 using (ZipFile zip = new ZipFile())
                 {
-                    zip.AddFile(@jsonFileName);
-                    zip.AddFile(@metaFileName);
+                    zip.AddFile(@jsonFileName, "");
+                    zip.AddFile(@metaFileName, "");
                     zip.Save(String.Format("{0}.zip", @jsonFileName));
                 }
 
@@ -99,11 +111,10 @@ namespace Spider
             }
             catch(Exception ex)
             {
-                GuiLogger.Log(ex.Message);
+                string em = ex.Message;
                 return null;
             }
-        }
-            
+        }            
       
         /// <summary>
         /// Decompresses the string.

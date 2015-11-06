@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace SpiderCore
 {
+    /// <summary>
+    /// Is pretty much a container class for meta data but with some funcionallity
+    /// </summary>
     public class Meta
     {
         public string date { get; set; }
@@ -17,6 +20,10 @@ namespace SpiderCore
         public int structurePages { get; set; }
         public bool daily { get; set; }
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="customerId"></param>
         public Meta(string customerId)
         {
             date = setDate();
@@ -28,6 +35,10 @@ namespace SpiderCore
             structurePages = 0;
         }
 
+        /// <summary>
+        /// Set crawl date
+        /// </summary>
+        /// <returns></returns>
         private string setDate()
         {
             DateTime now = DateTime.Now;
@@ -35,6 +46,9 @@ namespace SpiderCore
             return now.ToString("yyyy-MM-dd");
         }
 
+        /// <summary>
+        /// adds a file link to the meta
+        /// </summary>
         public void addFileLink()
         {
             fileLinks++;
@@ -42,23 +56,37 @@ namespace SpiderCore
         }
 
 
+        /// <summary>
+        /// Adds ownDomain link to the meta
+        /// </summary>
         public void addInternalLink()
         {
             internalLinks++;
             totalLinks++;
         }
 
+        /// <summary>
+        /// Adds an external link to the meta
+        /// </summary>
         public void addExternalLink()
         {
             externalLinks++;
             totalLinks++;
         }
 
+        /// <summary>
+        /// Sets how many pages was parsed through structure
+        /// </summary>
+        /// <param name="i"></param>
         public void setFromStructure(int i)
         {
             structurePages = i;
         }
         
+        /// <summary>
+        /// Sets if its a daily crawl or not
+        /// </summary>
+        /// <param name="isDaily"></param>
         public void setDaily(bool isDaily)
         {
             daily = isDaily;

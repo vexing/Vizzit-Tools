@@ -76,6 +76,7 @@
     <Compile Include="Customer.cs" />
     <Compile Include="Db\Connector.cs" />
     <Compile Include="Db\Queries\SelectQuery.cs" />
+    <Compile Include="Db\Queries\SelectQueryModel.cs" />
     <Compile Include="Extractor.cs" />
     <Compile Include="GuiLogger.cs" />
     <Compile Include="Initialize.cs" />

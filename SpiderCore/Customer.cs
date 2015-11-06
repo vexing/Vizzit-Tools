@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace SpiderCore
 {
+    /// <summary>
+    /// Container class for customer data
+    /// </summary>
     public class Customer
     {
         public string Domain { get; set; }

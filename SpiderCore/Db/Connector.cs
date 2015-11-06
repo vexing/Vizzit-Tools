@@ -12,21 +12,35 @@ namespace SpiderCore.Db
         private String str = @"server=80.72.9.34;userid=v2;password=xh.N3p47,HZzw4JN;";
         private MySqlConnection connection = null;
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
         public Connector()
         {
             connection = new MySqlConnection(str);
         }
 
+        /// <summary>
+        /// open a connection
+        /// </summary>
         public void OpenCon()
         {
             connection.Open();
         }
 
+        /// <summary>
+        /// Close a connection
+        /// </summary>
         public void CloseCon()
         {
             connection.Close();
         }
 
+        /// <summary>
+        /// Select query template for List return
+        /// </summary>
+        /// <param name="query"></param>
+        /// <returns></returns>
         public List<string> Query(string query)
         {
             List<string> r = new List<string>();
@@ -47,7 +61,6 @@ namespace SpiderCore.Db
             catch (MySqlException e)
             {
                 string errorMsg = e.Message;
-                GuiLogger.Log(errorMsg);
             }
             finally
             {

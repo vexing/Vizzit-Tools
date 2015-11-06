@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace SpiderCore
 {
+    /// <summary>
+    /// Class for extracting html
+    /// </summary>
     public class Extractor
     {
         private HtmlDocument page;

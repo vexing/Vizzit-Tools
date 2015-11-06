@@ -24,6 +24,12 @@ namespace FileHandler
             }
         }
 
+        /// <summary>
+        /// Easy enough, sends the file to vizzit as post
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <param name="customerId"></param>
+        /// <param name="date"></param>
         public static void SendFile(string fileName, string customerId, string date)
         {
             FileStream fs = new FileStream(fileName, FileMode.Open, FileAccess.Read);

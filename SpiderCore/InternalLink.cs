@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace SpiderCore
 {
+    /// <summary>
+    /// In the end this should probably be done in LinkData since we didn't need to separate different links
+    /// </summary>
     public class InternalLink : LinkData
     {
         private HttpStatusCode status;

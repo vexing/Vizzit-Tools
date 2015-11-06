@@ -1,0 +1,12 @@
+C:\Users\antehagg\Documents\Vizzit-Tools\TestApp\bin\Debug\TestApp.exe.config
+C:\Users\antehagg\Documents\Vizzit-Tools\TestApp\bin\Debug\TestApp.exe
+C:\Users\antehagg\Documents\Vizzit-Tools\TestApp\bin\Debug\TestApp.pdb
+C:\Users\antehagg\Documents\Vizzit-Tools\TestApp\obj\Debug\MainWindow.baml
+C:\Users\antehagg\Documents\Vizzit-Tools\TestApp\obj\Debug\MainWindow.g.cs
+C:\Users\antehagg\Documents\Vizzit-Tools\TestApp\obj\Debug\App.g.cs
+C:\Users\antehagg\Documents\Vizzit-Tools\TestApp\obj\Debug\TestApp_MarkupCompile.cache
+C:\Users\antehagg\Documents\Vizzit-Tools\TestApp\obj\Debug\TestApp.g.resources
+C:\Users\antehagg\Documents\Vizzit-Tools\TestApp\obj\Debug\TestApp.Properties.Resources.resources
+C:\Users\antehagg\Documents\Vizzit-Tools\TestApp\obj\Debug\TestApp.csproj.GenerateResource.Cache
+C:\Users\antehagg\Documents\Vizzit-Tools\TestApp\obj\Debug\TestApp.exe
+C:\Users\antehagg\Documents\Vizzit-Tools\TestApp\obj\Debug\TestApp.pdb

@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace SpiderCore
 {
+    /// <summary>
+    /// Only used for testing
+    /// </summary>
     public class RequestState
     {
         // This class stores the State of the request.

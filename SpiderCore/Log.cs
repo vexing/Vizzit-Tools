@@ -7,18 +7,28 @@ using System.Threading.Tasks;
 
 namespace SpiderCore
 {
+    /// <summary>
+    /// Logs to a textfile
+    /// </summary>
     public class Log
     {
         private string customerId;
         private string logName;
         private string logFile;
-
+        
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="customerId"></param>
         public Log(string customerId)
         {
             this.customerId = customerId;
             createLogFile();
         }
         
+        /// <summary>
+        /// Creates the logfile for the specific customer
+        /// </summary>
         private void createLogFile()
         {
             DateTime startTime = DateTime.Now;
@@ -42,10 +52,15 @@ namespace SpiderCore
             }
             catch (Exception ex)
             {
-                GuiLogger.Log(ex.Message);
+                string em = ex.Message;
             }
         }
 
+        /// <summary>
+        /// Should be overloaded but isn't, I use this function for all log inputs. It's messy but doesn't really matter
+        /// </summary>
+        /// <param name="errorMsg"></param>
+        /// <param name="url"></param>
         public void logLine(string errorMsg, string url)
         {
             try
@@ -60,11 +75,16 @@ namespace SpiderCore
             }
             catch (Exception ex)
             {
-                GuiLogger.Log(ex.Message);
+                string em = ex.Message;
             }
             
         }
 
+        /// <summary>
+        /// Appends the finished logline to the textfile
+        /// </summary>
+        /// <param name="logMessage"></param>
+        /// <param name="w"></param>
         private void writeLine(string logMessage, TextWriter w)
         {
             try
@@ -74,7 +94,7 @@ namespace SpiderCore
             }
             catch (Exception ex)
             {
-                GuiLogger.Log(ex.Message);
+                string em = ex.Message;
             }
         }
     }

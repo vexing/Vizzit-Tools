@@ -16,7 +16,7 @@ using System.Runtime.InteropServices;
 
 namespace SpiderCore
 {
-    //TODO: Move to external namcespace
+    //TODO: Move to FileHandler?
     public class Output
     {
         private List<PageData> pageDataList;
@@ -53,9 +53,6 @@ namespace SpiderCore
         /// <param name="metaData">meta data object</param>
         public Output(ref List<PageData> pageDataList, string customer_id, Meta metaData, bool sendFile)
         {
-            Process currentProc = Process.GetCurrentProcess();
-            GuiLogger.Log("Using " + currentProc.PrivateMemorySize64.ToString() + " at start of json");
-
             this.metaData = metaData;
 
             JsonSerializer serializer = new JsonSerializer();
@@ -66,14 +63,19 @@ namespace SpiderCore
 
             try
             {
-                jsonFileName = String.Format(@"{0}_{1}.json", customer_id, date.ToString("yyMMdd_HHmmss"));
+                string path = String.Format(@"files/{0}/", customer_id);
+
+                if (!Directory.Exists(path))
+                    Directory.CreateDirectory(path);
+
+                jsonFileName = String.Format(@"files/{0}/{0}_{1}.json", customer_id, date.ToString("yyMMdd_HHmmss"));
                 using (StreamWriter sw = new StreamWriter(@jsonFileName))
                 using (JsonWriter writer = new JsonTextWriter(sw))
                 {
                     serializer.Serialize(writer, pageDataList);
                 }
 
-                string metaFileName = String.Format(@"{0}_{1}.meta", customer_id, date.ToString("yyMMdd_HHmmss"));
+                string metaFileName = String.Format(@"files/{0}/{0}_{1}.meta", customer_id, date.ToString("yyMMdd_HHmmss"));
                 using (StreamWriter sw = new StreamWriter(@metaFileName))
                 using (JsonWriter writer = new JsonTextWriter(sw))
                 {
@@ -84,19 +86,14 @@ namespace SpiderCore
                 if (sendFile)
                     FileHandler.FileSend.SendFile(zipFile, customer_id, date.ToString("yyyy-MM-dd"));
 
-                currentProc = Process.GetCurrentProcess();
-                GuiLogger.Log("Using " + currentProc.PrivateMemorySize64.ToString() + " at end try in json");
             }
             catch(Exception ex)
             {
-                GuiLogger.Log(ex.Message);
+                string em = ex.Message;
             }
             pageDataList.Clear();
 
             Thread.Sleep(4000);
-
-            currentProc = Process.GetCurrentProcess();
-            GuiLogger.Log("Using " + currentProc.PrivateMemorySize64.ToString() + " at end of json");
         }
 
         /// <summary>
@@ -123,27 +120,27 @@ namespace SpiderCore
                 FileHandler.FileSend.SendFile(zipFile, customer_id, date.ToString("yyyy-MM-dd"));
         }
 
+        /// <summary>
+        /// Used for testing for memory issues, should probably be removed
+        /// </summary>
         public void Dispose()
         {
             Dispose(true);
             GC.SuppressFinalize(this);
         }
 
-        // Protected implementation of Dispose pattern.
+        /// <summary>
+        /// Protected implementation of Dispose pattern.
+        /// </summary>
+        /// <param name="disposing"></param>
         protected virtual void Dispose(bool disposing)
         {
             if (disposed)
                 return;
 
             if (disposing)
-            {
                 handle.Dispose();
-                // Free any other managed objects here.
-                //
-            }
 
-            // Free any unmanaged objects here.
-            //
             disposed = true;
         }
 

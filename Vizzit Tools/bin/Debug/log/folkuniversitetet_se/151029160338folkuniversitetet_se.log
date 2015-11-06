@@ -1,0 +1,7 @@
+16:03:38 den 29 oktober 2015: Starting  http://www.folkuniversitetet.se
+16:04:25 den 29 oktober 2015: Uri exception: System.UriFormatException    at System.Uri.CreateThis(String uri, Boolean dontEscape, UriKind uriKind)
+   at System.Uri..ctor(String uriString)
+   at System.Net.WebRequest.Create(String requestUriString)
+   at SpiderCore.Core.crawlSite() in c:\Users\antehagg\Documents\Vizzit-Tools\SpiderCore\Core.cs:line 254 Invalid URI: The format of the URI could not be determined. http://www.folkuniversitetet.se/Global/DOKUMENTBANKEN/Lokala+dokument/Dokument_Region_Vast/Göteborg/Diplomutbildningar/Ekvivaleringsblankett_familjeterapi_ht14.pdf
+16:04:25 den 29 oktober 2015: Parse took 47 seconds  http://www.folkuniversitetet.se/Global/DOKUMENTBANKEN/Lokala%20dokument/Dokument_Region_Vast/G%c3%b6teborg/Diplomutbildningar/Ekvivaleringsblankett_familjeterapi_ht14.pdf
+16:04:30 den 29 oktober 2015: Spider done

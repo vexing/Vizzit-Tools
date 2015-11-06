@@ -11,6 +11,14 @@ namespace FileHandler
     public static class FormUpload
     {
         private static readonly Encoding encoding = Encoding.UTF8;
+
+        /// <summary>
+        /// Start creating the post and return the response
+        /// </summary>
+        /// <param name="postUrl"></param>
+        /// <param name="userAgent"></param>
+        /// <param name="postParameters"></param>
+        /// <returns></returns>
         public static HttpWebResponse MultipartFormDataPost(string postUrl, string userAgent, Dictionary<string, object> postParameters)
         {
             string formDataBoundary = String.Format("----------{0:N}", Guid.NewGuid());
@@ -20,6 +28,15 @@ namespace FileHandler
 
             return PostForm(postUrl, userAgent, contentType, formData);
         }
+
+        /// <summary>
+        /// Does a webrequest to vizzit server to send the post
+        /// </summary>
+        /// <param name="postUrl"></param>
+        /// <param name="userAgent"></param>
+        /// <param name="contentType"></param>
+        /// <param name="formData"></param>
+        /// <returns></returns>
         private static HttpWebResponse PostForm(string postUrl, string userAgent, string contentType, byte[] formData)
         {
             HttpWebRequest request = WebRequest.Create(postUrl) as HttpWebRequest;
@@ -46,6 +63,12 @@ namespace FileHandler
             return request.GetResponse() as HttpWebResponse;
         }
 
+        /// <summary>
+        /// Creates the complete post
+        /// </summary>
+        /// <param name="postParameters"></param>
+        /// <param name="boundary"></param>
+        /// <returns></returns>
         private static byte[] GetMultipartFormData(Dictionary<string, object> postParameters, string boundary)
         {
             Stream formDataStream = new System.IO.MemoryStream();
@@ -99,6 +122,9 @@ namespace FileHandler
             return formData;
         }
 
+        /// <summary>
+        /// Simple datacontainer for the file parameters, could be outside this class but its only used here
+        /// </summary>
         public class FileParameter
         {
             public byte[] File { get; set; }
