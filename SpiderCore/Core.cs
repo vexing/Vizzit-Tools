@@ -76,7 +76,9 @@ namespace SpiderCore
             else
             {
                 dailyCheckPages = SelectQueryModel.GetPagesWithBrokenLinkgs(database);
-                crawlSite();
+                unvistedLinks.AddRange(dailyCheckPages);
+                if (unvistedLinks.Count > 0)
+                    crawlSite();
             }
 
             output = new Output(ref pageDataList, customer_id, meta, sendFile);
@@ -300,52 +302,10 @@ namespace SpiderCore
                         }
                         else if (!ownDomain)
                         {
-
                             linkData = new InternalLink(pageData.Url, webResponse.StatusCode, linkRelative);
                             visitedLinks.Add(pageData.Url, linkData);
                             meta.addExternalLink();
-                        }
-                        else if(dailyCheck)
-                        {
-                            Stream stream = webResponse.GetResponseStream();
-                            string responseString = ((TextReader)new StreamReader(stream)).ReadToEnd();
-
-                            doc.LoadHtml(responseString);
-                            linkData = new InternalLink(pageData.Url, webResponse.StatusCode, linkRelative);
-                            visitedLinks.Add(pageData.Url, linkData);
-
-
-                            //Extract data from currentPage if status 200
-                            if (webResponse.StatusCode == HttpStatusCode.OK && ownDomain)
-                            {
-                                var extractor = new Extractor(doc);
-                                Dictionary<string, string> metaList = extractor.GetMeta();
-                                string title = extractor.GetTitle();
-                                List<string> hrefTags = extractor.ExtractAllAHrefTags();
-
-                                //Iterate the links
-                                foreach (string hrefTag in hrefTags)
-                                {
-                                    //Insert the link to the correct List
-                                    if (!pageData.checkIfLinkExistInLinkString(hrefTag))
-                                    {
-                                        if (mailLinkCheck(hrefTag))
-                                            pageData.insertMailLink(hrefTag);
-                                        else
-                                            if (!hrefTag.StartsWith("#"))
-                                                pageData.insertLink(hrefTag);
-                                    }
-                                }
-                                //We have to check if the page we are visiting are a page from the dailycheck List.
-                                //If it is we add the links we find on this page.
-                                if(dailyCheckPages.Contains(pageData.Url))
-                                    insertNewLinks(ref hrefTags);
-
-                                hrefTags.Clear();
-                            }
-                            meta.addInternalLink();
-                            stream.Close();
-                        }
+                        }                     
                         else
                         {
                             using (Stream stream = webResponse.GetResponseStream())
@@ -361,8 +321,6 @@ namespace SpiderCore
                                     sr.Close();
                                 }
 
-
-
                                 //Extract data from currentPage if status 200
                                 if (webResponse.StatusCode == HttpStatusCode.OK && ownDomain)
                                 {
@@ -375,7 +333,7 @@ namespace SpiderCore
                                     //Iterate the links
                                     foreach (string hrefTag in hrefTags)
                                     {
-                                        //Make sure relative links is saved as absolute so nothing bad happens when we add the domain later.
+                                        //Make sure relative links is saved as absolute so nothing bad happens
                                         string linkUrl = hrefTag;
                                         if (relativeCheck(hrefTag))
                                         {
@@ -411,8 +369,10 @@ namespace SpiderCore
                                                 }
                                         }
                                     }
-                                    //Insert the whole range of new links
-                                    insertNewLinks(ref linkList);
+                                    //We have to check if the page we are visiting are a page from the dailycheck List.
+                                    //If it is we add the links we find on this page.
+                                    if ((dailyCheck && dailyCheckPages.Contains(pageData.Url)) || !dailyCheck)
+                                        insertNewLinks(ref linkList);
                                 }
                                 meta.addInternalLink();
                                 stream.Close();
@@ -459,13 +419,12 @@ namespace SpiderCore
                 if (parseTime > new TimeSpan(0, 0, 10))
                     newLog.logLine("Parse took " + parseTime.Seconds + " seconds ", pageData.Url);
 
-                if (unvistedLinks.Count <= 0 && !structureUpdateDone && visitedLinks.Count > 2)
+                if (unvistedLinks.Count <= 0 && !structureUpdateDone && visitedLinks.Count > 2  && !dailyCheck)
                     compareStructure();
             }
 
             buildLinkLists();
-            visitedLinks.Clear();
-
+            
             newLog.logLine("Spider", "done");
         }
 
@@ -474,15 +433,7 @@ namespace SpiderCore
         /// </summary>
         private void compareStructure()
         {
-            try
-            {
-                structure = SelectQuery.GetStructure(database, DateTime.Now.ToString("yyyy-MM-dd"), domain);
-            }
-            catch(Exception ex)
-            {
-                newLog.logLine(ex.Message, database);
-            }
-
+            structure = SelectQuery.GetStructure(database, DateTime.Now.ToString("yyyy-MM-dd"), domain);
 
             //There might be a better way to do this but I haven't found it
             unvistedLinks.AddRange(structure.Except(visitedLinks.Keys));

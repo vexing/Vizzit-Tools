@@ -67,7 +67,7 @@ namespace SpiderCore.Db
                 if (reader != null)
                     reader.Close();
                 if (connection != null)
-                    connection.Close(); 
+                    CloseCon();
             }
 
             return r;
